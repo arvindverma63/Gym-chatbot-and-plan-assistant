@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+# Add any other core dependencies if needed
