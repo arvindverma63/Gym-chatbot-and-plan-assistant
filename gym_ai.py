@@ -20,13 +20,16 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 MODEL_FILENAME = "gym_model.json"
 
 
-def _normalize(value: str) -> str:
+def _normalize(value: Optional[str]) -> str:
+    if value is None:
+        return ""
     return " ".join(value.strip().lower().replace("_", " ").split())
 
 
-def _canonical(value: str) -> str:
+def _canonical(value: Optional[str]) -> str:
     """Return a normalized key with underscores for API friendliness."""
-
+    if value is None:
+        return ""
     return _normalize(value).replace(" ", "_")
 
 

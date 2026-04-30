@@ -1,0 +1,229 @@
+{
+  "profile": {
+    "gender": "Male",
+    "goal": "fat_burn",
+    "bmi_category": null,
+    "diet_type": null
+  },
+  "interactions": [
+    {
+      "type": "question",
+      "message": "How much cardio should I do to lose fat?",
+      "profile": {
+        "gender": null,
+        "goal": "fat_burn",
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded fitness answer based on the exercise knowledge base: You cannot target where you lose fat. this is commonly called spot reduction and it is a myth. your genes are responsible for where your body stores fat and where it comes from when losing weight in a first on, last off manner.",
+      "exercise_examples": [
+        {
+          "name": "Kneeling Cable Crunch With Alternating Oblique Twists",
+          "muscles": "abdominals",
+          "instruction": "Connect a rope attachment to a high pulley cable and position a mat on the floor in front of it.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists/0.jpg",
+          "exerciseId": "Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists"
+        },
+        {
+          "name": "assisted hanging knee raise with throw down",
+          "muscles": "abs",
+          "instruction": "Step:1 Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+          "primaryMuscles": [
+            "abs"
+          ],
+          "secondaryMuscles": [
+            "hip flexors",
+            "lower back"
+          ],
+          "bodyParts": [
+            "waist"
+          ],
+          "category": "visual",
+          "exerciseId": "8K0w2yA",
+          "gif_url": "/exercise-gif/8K0w2yA",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\8K0w2yA.gif"
+        },
+        {
+          "name": "Bent Over Two-Dumbbell Row With Palms In",
+          "muscles": "middle back",
+          "instruction": "With a dumbbell in each hand (palms facing each other), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The weights should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
+          "primaryMuscles": [
+            "middle back"
+          ],
+          "secondaryMuscles": [
+            "biceps",
+            "lats"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row_With_Palms_In/0.jpg",
+          "exerciseId": "Bent_Over_Two-Dumbbell_Row_With_Palms_In"
+        }
+      ],
+      "nutrition_examples": []
+    },
+    {
+      "type": "plan",
+      "profile": {
+        "gender": "Male",
+        "goal": "fat_burn",
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "message": "",
+      "reply": "Here is your plan for a fat burn goal. Aim for 150 to 300 minutes of moderate aerobic activity each week plus 2 strength days, starting small if needed. Focus on nutrient-dense meals, portion control, lean protein, vegetables, fruit, and whole grains. Here is a more grounded diet answer based on the nutrition knowledge base: A good Low-fat lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+      "exercise_examples": [
+        {
+          "name": "Kneeling Cable Crunch With Alternating Oblique Twists",
+          "muscles": "abdominals",
+          "instruction": "Connect a rope attachment to a high pulley cable and position a mat on the floor in front of it.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists/0.jpg",
+          "exerciseId": "Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists"
+        },
+        {
+          "name": "assisted hanging knee raise with throw down",
+          "muscles": "abs",
+          "instruction": "Step:1 Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+          "primaryMuscles": [
+            "abs"
+          ],
+          "secondaryMuscles": [
+            "hip flexors",
+            "lower back"
+          ],
+          "bodyParts": [
+            "waist"
+          ],
+          "category": "visual",
+          "exerciseId": "8K0w2yA",
+          "gif_url": "/exercise-gif/8K0w2yA",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\8K0w2yA.gif"
+        },
+        {
+          "name": "Bent Over Two-Dumbbell Row With Palms In",
+          "muscles": "middle back",
+          "instruction": "With a dumbbell in each hand (palms facing each other), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The weights should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
+          "primaryMuscles": [
+            "middle back"
+          ],
+          "secondaryMuscles": [
+            "biceps",
+            "lats"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row_With_Palms_In/0.jpg",
+          "exerciseId": "Bent_Over_Two-Dumbbell_Row_With_Palms_In"
+        }
+      ],
+      "nutrition_examples": [
+        {
+          "name": "Beverages, decaffeinated, restaurant-prepared, espresso, brewed, coffee",
+          "calories": 9.0,
+          "protein": 0.1,
+          "fiber": 0.0
+        },
+        {
+          "name": "Beverages, restaurant-prepared, espresso, brewed, coffee",
+          "calories": 9.0,
+          "protein": 0.12,
+          "fiber": 0.0
+        },
+        {
+          "name": "Pickles, low sodium, sour, cucumber",
+          "calories": 11.0,
+          "protein": 0.33,
+          "fiber": 1.2
+        },
+        {
+          "name": "Pickles, sour, cucumber",
+          "calories": 11.0,
+          "protein": 0.33,
+          "fiber": 1.2
+        }
+      ],
+      "knowledge_examples": [
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Low-fat meal for lunch.",
+          "response": "A good Low-fat lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.8
+        },
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Date: 2023-07-18 Meals: - snack: 165g salmon, 1.6 cups sweet potato, 1.9 cups spinach, 28g olive oil - dinner: 73g tofu, 0.7 cups brown rice, 2.5 cups spinach, 14g cheese - breakfast: 195g tofu, 1.4 cups sweet potato, 1.0 cups broccoli, 25g olive oil Mood: slightly stressed (feeling motivated) Workout: cycling (cardio) for 58 mins (intense)",
+          "response": "Your meals provide ~115g protein. Try deep breathing to reduce stress. Good intense workout! Remember to hydrate well.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.8
+        },
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Date: 2023-05-25 Meals: - snack: 200g greek yogurt, 1.3 cups brown rice, 2.3 cups spinach, 8g olive oil - lunch: 106g tofu, 1.0 cups quinoa, 1.4 cups broccoli, 20g cheese - dinner: 123g chicken breast, 0.6 cups whole wheat bread, 0.5 cups bell peppers Mood: slightly anxious (trouble sleeping) Workout: running (cardio) for 56 mins (intense)",
+          "response": "Your meals provide ~103g protein. Try deep breathing to reduce stress. Good intense workout! Remember to hydrate well.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.8
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "hi",
+      "profile": {
+        "gender": "Male",
+        "goal": "fat_burn",
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: A good Low-fat lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Beverages, decaffeinated, restaurant-prepared, espresso, brewed, coffee",
+          "calories": 9.0,
+          "protein": 0.1,
+          "fiber": 0.0
+        },
+        {
+          "name": "Beverages, restaurant-prepared, espresso, brewed, coffee",
+          "calories": 9.0,
+          "protein": 0.12,
+          "fiber": 0.0
+        },
+        {
+          "name": "Pickles, low sodium, sour, cucumber",
+          "calories": 11.0,
+          "protein": 0.33,
+          "fiber": 1.2
+        },
+        {
+          "name": "Pickles, sour, cucumber",
+          "calories": 11.0,
+          "protein": 0.33,
+          "fiber": 1.2
+        }
+      ]
+    }
+  ]
+}

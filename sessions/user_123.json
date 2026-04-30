@@ -1,0 +1,140 @@
+{
+  "profile": {
+    "gender": "string",
+    "goal": "string",
+    "bmi_category": "string",
+    "diet_type": "string"
+  },
+  "interactions": [
+    {
+      "type": "plan",
+      "profile": {
+        "gender": "string",
+        "goal": "string",
+        "bmi_category": "string",
+        "diet_type": "string"
+      },
+      "message": "string",
+      "reply": "Here is your plan for a string goal. Aim for 150 to 300 minutes of moderate aerobic activity each week plus 2 strength days, starting small if needed. Focus on nutrient-dense meals, portion control, lean protein, vegetables, fruit, and whole grains. Here is a more grounded fitness answer based on the exercise knowledge base: Cross-training is an exercise protocol using various modes of training that differ from an athlete’s main sport. the intent is to develop specific fitness components.",
+      "exercise_examples": [
+        {
+          "name": "barbell incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "3TZduzM",
+          "gif_url": "/exercise-gif/3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "5v7KYld",
+          "gif_url": "/exercise-gif/5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "Overhead Squat",
+          "muscles": "quadriceps",
+          "instruction": "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
+          "primaryMuscles": [
+            "quadriceps"
+          ],
+          "secondaryMuscles": [
+            "abdominals",
+            "calves",
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "olympic weightlifting",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Squat/0.jpg",
+          "exerciseId": "Overhead_Squat"
+        }
+      ],
+      "nutrition_examples": [
+        {
+          "name": "McDONALD'S, Peanuts (for Sundaes)",
+          "calories": 640.0,
+          "protein": 28.04,
+          "fiber": 0.0
+        },
+        {
+          "name": "Peanuts, with salt, oil-roasted, all types",
+          "calories": 599.0,
+          "protein": 28.03,
+          "fiber": 9.4
+        },
+        {
+          "name": "Peanuts, without salt, oil-roasted, all types",
+          "calories": 599.0,
+          "protein": 28.03,
+          "fiber": 9.4
+        },
+        {
+          "name": "Peanuts, with salt, oil-roasted, spanish",
+          "calories": 579.0,
+          "protein": 28.01,
+          "fiber": 8.9
+        }
+      ],
+      "knowledge_examples": [
+        {
+          "source": "its-myrto/fitness-question-answers",
+          "kind": "qa",
+          "prompt": "what is cross-training?",
+          "response": "cross-training is an exercise protocol using various modes of training that differ from an athlete’s main sport. the intent is to develop specific fitness components.",
+          "intent": "workout_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.979
+        },
+        {
+          "source": "its-myrto/fitness-question-answers",
+          "kind": "qa",
+          "prompt": "what is circuit training?",
+          "response": "circuit training is a form of body conditioning that involves endurance training, resistance training, high intensity aerobics, and exercises performed in a circuit, similar to high-intensity interval training. it targets strength building and muscular endurance.",
+          "intent": "workout_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.95
+        },
+        {
+          "source": "its-myrto/fitness-question-answers",
+          "kind": "qa",
+          "prompt": "what is strength training?",
+          "response": "strength training, also known as resistance training, is a type of exercise that causes your muscles to resist an external force. you can apply force using your body weight, dumbbells, kettlebells, barbells, resistance bands, exercise machines, or several other tools.",
+          "intent": "workout_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.937
+        }
+      ]
+    }
+  ]
+}

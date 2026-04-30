@@ -1131,6 +1131,8 @@ class FitPaxAssistant:
 
     def _recent_exercise_keys(self, profile: dict, limit: int = 12) -> set[str]:
         recent: set[str] = set()
+        session_id = profile.get("session_id", "default")
+        memory = self._load_memory(session_id)
         for item in reversed(memory.get("interactions", []) if isinstance(memory.get("interactions"), list) else []):
             if not isinstance(item, dict):
                 continue
@@ -1152,6 +1154,8 @@ class FitPaxAssistant:
 
     def _recent_nutrition_keys(self, profile: dict, limit: int = 12) -> set[str]:
         recent: set[str] = set()
+        session_id = profile.get("session_id", "default")
+        memory = self._load_memory(session_id)
         for item in reversed(memory.get("interactions", []) if isinstance(memory.get("interactions"), list) else []):
             if not isinstance(item, dict):
                 continue
@@ -1347,11 +1351,20 @@ class FitPaxAssistant:
                 "reply": "Tell me your goal and body type in one sentence, like: 'I am skinny and want to build muscles.'",
             }
 
-        recommendation = self.advisor.recommend(
-            gender=profile["gender"],
-            goal=profile["goal"],
-            bmi_category=profile["bmi_category"],
-        )
+        # Ensure critical fields for the advisor are not None
+        advisor_gender = profile.get("gender") or DEFAULT_GENDER
+        advisor_goal = profile.get("goal") or "fat_burn"
+        advisor_bmi = profile.get("bmi_category") or "Normal weight"
+
+        try:
+            recommendation = self.advisor.recommend(
+                gender=advisor_gender,
+                goal=advisor_goal,
+                bmi_category=advisor_bmi,
+            )
+        except Exception:
+            # Fallback if no recommendation can be found at all
+            recommendation = None
         exercises = self._pick_exercises(profile)
 
         weekly_guidance = WEEKLY_GUIDANCE.get(profile["goal"], WEEKLY_GUIDANCE["fat_burn"])
@@ -1402,7 +1415,7 @@ class FitPaxAssistant:
             "exercise_examples": exercises,
             "nutrition_examples": nutrition_examples,
             "suggestions": self._suggestions(profile, "plan"),
-            "recommendation": recommendation_to_dict(recommendation),
+            "recommendation": recommendation_to_dict(recommendation) if recommendation else None,
             "assessment": assessment_text,
             "parsed": parsed,
             "knowledge_examples": knowledge_matches,
