@@ -17,6 +17,11 @@ const bmiCategory = document.getElementById("bmiCategory");
 const dietType = document.getElementById("dietType");
 const description = document.getElementById("description");
 let lastAssistantPayload = null;
+let sessionId = localStorage.getItem("fitpax_session_id");
+if (!sessionId) {
+  sessionId = "sess_" + Math.random().toString(36).substring(2, 15);
+  localStorage.setItem("fitpax_session_id", sessionId);
+}
 
 const fallbackOptions = {
   gender: [
@@ -45,10 +50,7 @@ const fallbackOptions = {
 
 function stateFromForm() {
   return {
-    gender: gender.value || "",
-    goal: goal.value || "",
-    bmi_category: bmiCategory.value || "",
-    diet_type: dietType?.value || "",
+    profile: profileStateFromForm(),
     description: description.value || "",
   };
 }
@@ -57,8 +59,43 @@ function profileStateFromForm() {
   const profile = {};
   if (gender.value) profile.gender = gender.value;
   if (goal.value) profile.goal = goal.value;
-  if (bmiCategory.value) profile.bmi_category = bmiCategory.value;
   if (dietType?.value) profile.diet_type = dietType.value;
+  
+  const med = document.getElementById("medicalHistory")?.value;
+  if (med) profile.medical_history = med;
+  
+  const w = parseFloat(document.getElementById("weight")?.value);
+  if (!isNaN(w)) profile.weight = w;
+  
+  const h = parseFloat(document.getElementById("height")?.value);
+  if (!isNaN(h)) profile.height = h;
+  
+  const c = parseFloat(document.getElementById("chest")?.value);
+  if (!isNaN(c)) profile.chest = c;
+  
+  const wa = parseFloat(document.getElementById("waist")?.value);
+  if (!isNaN(wa)) profile.waist = wa;
+  
+  const hi = parseFloat(document.getElementById("hips")?.value);
+  if (!isNaN(hi)) profile.hips = hi;
+  
+  const b = parseFloat(document.getElementById("biceps")?.value);
+  if (!isNaN(b)) profile.biceps = b;
+  
+  const bf = parseFloat(document.getElementById("bodyFat")?.value);
+  if (!isNaN(bf)) profile.body_fat = bf;
+  
+  if (profile.height && profile.weight) {
+    const heightM = profile.height / 100;
+    const bmi = profile.weight / (heightM * heightM);
+    if (bmi < 18.5) profile.bmi_category = "Underweight";
+    else if (bmi < 25) profile.bmi_category = "Normal weight";
+    else if (bmi < 30) profile.bmi_category = "Overweight";
+    else profile.bmi_category = "Obesity";
+  } else if (bmiCategory?.value) {
+    profile.bmi_category = bmiCategory.value;
+  }
+  
   return profile;
 }
 
@@ -178,6 +215,8 @@ function addPlanCard(payload) {
       </div>`
     : "";
 
+  const assessment = payload.assessment ? `<div class="result-item" style="grid-column: 1 / -1; white-space: pre-wrap;"><span>Advanced Body Assessment</span><strong>${escapeHtml(payload.assessment)}</strong></div>` : '';
+
   card.innerHTML = `
     <div class="card-head">
       <div>
@@ -189,17 +228,22 @@ function addPlanCard(payload) {
     ${inferred}
     ${grounded}
     <div class="hint">${escapeHtml(payload.weekly_guidance || "")}</div>
-    ${hasPlanDetails ? `
+    ${(hasPlanDetails || payload.assessment) ? `
     <div class="result-grid">
+      ${assessment}
       ${workoutText ? `<div class="result-item"><span>Workout</span><strong>${escapeHtml(workoutText)}</strong></div>` : ''}
       ${mealText ? `<div class="result-item"><span>Meal plan</span><strong>${escapeHtml(mealText)}</strong></div>` : ''}
       ${nutritionNote ? `<div class="result-item"><span>Nutrition note</span><strong>${escapeHtml(nutritionNote)}</strong></div>` : ''}
     </div>
     ` : ''}
+    ${exercises ? `
     <div class="section-label">Suggested exercises</div>
-    ${exercises || `<div class="empty-note">No exercise examples available.</div>`}
+    ${exercises}
+    ` : ''}
+    ${nutrition ? `
     <div class="section-label">Suggested foods</div>
-    ${nutrition || `<div class="empty-note">No nutrition examples available.</div>`}
+    ${nutrition}
+    ` : ''}
     ${
       Array.isArray(payload.suggestions) && payload.suggestions.length
         ? `<div class="section-label">Next questions</div><div class="chip-row">${payload.suggestions.map((item) => `<button type="button" class="chip" data-fill="${escapeHtml(item)}">${escapeHtml(item)}</button>`).join("")}</div>`
@@ -224,6 +268,7 @@ function setPending() {
 }
 
 async function postJson(path, body) {
+  body.session_id = sessionId;
   const response = await fetch(path, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

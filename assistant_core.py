@@ -422,7 +422,8 @@ class FitPaxAssistant:
         self.data_dir = self.base_dir / "data"
         self.gym_csv = self.base_dir / "GYM.csv"
         self.model_path = self.base_dir / MODEL_FILENAME
-        self.memory_path = self.base_dir / "memory.json"
+        self.sessions_dir = self.base_dir / "sessions"
+        self.sessions_dir.mkdir(exist_ok=True)
         self.feedback_path = self.base_dir / "feedback.json"
         self._mtimes: dict[str, float] = {}
         self.advisor: GymAdvisor | None = None
@@ -432,11 +433,8 @@ class FitPaxAssistant:
         self.knowledge: list[dict] = []
         self.knowledge_index: dict[str, list[int]] = {}
         self.knowledge_by_intent: dict[str, list[int]] = {}
-        self.memory: dict[str, Any] = {"profile": {}, "interactions": []}
         self.feedback: list[dict] = []
-        self._memory_changed = False
         self._feedback_changed = False
-        self._load_memory()
         self._load_feedback()
         self.refresh(force=True)
 
@@ -475,30 +473,30 @@ class FitPaxAssistant:
         self.knowledge = self._load_knowledge()
         self._index_knowledge()
         self._mtimes = self._snapshot()
-        self._memory_changed = False
         self._feedback_changed = False
 
-    def _load_memory(self) -> None:
-        if not self.memory_path.exists():
-            self.memory = {"profile": {}, "interactions": []}
-            return
+    def _load_memory(self, session_id: str) -> dict:
+        safe_id = "".join(c for c in session_id if c.isalnum() or c in "_-") or "default"
+        path = self.sessions_dir / f"{safe_id}.json"
+        if not path.exists():
+            return {"profile": {}, "interactions": []}
         try:
-            with open(self.memory_path, "r", encoding="utf-8") as handle:
+            with open(path, "r", encoding="utf-8") as handle:
                 data = json.load(handle)
             if isinstance(data, dict):
-                self.memory = {
+                return {
                     "profile": data.get("profile", {}) if isinstance(data.get("profile"), dict) else {},
                     "interactions": data.get("interactions", []) if isinstance(data.get("interactions"), list) else [],
                 }
         except Exception:
-            self.memory = {"profile": {}, "interactions": []}
+            pass
+        return {"profile": {}, "interactions": []}
 
-    def _save_memory(self) -> None:
-        if not self._memory_changed:
-            return
-        with open(self.memory_path, "w", encoding="utf-8") as handle:
-            json.dump(self.memory, handle, indent=2, ensure_ascii=False)
-        self._memory_changed = False
+    def _save_memory(self, session_id: str, memory: dict) -> None:
+        safe_id = "".join(c for c in session_id if c.isalnum() or c in "_-") or "default"
+        path = self.sessions_dir / f"{safe_id}.json"
+        with open(path, "w", encoding="utf-8") as handle:
+            json.dump(memory, handle, indent=2, ensure_ascii=False)
 
     def _load_feedback(self) -> None:
         if not self.feedback_path.exists():
@@ -1133,7 +1131,7 @@ class FitPaxAssistant:
 
     def _recent_exercise_keys(self, profile: dict, limit: int = 12) -> set[str]:
         recent: set[str] = set()
-        for item in reversed(self.memory.get("interactions", []) if isinstance(self.memory.get("interactions"), list) else []):
+        for item in reversed(memory.get("interactions", []) if isinstance(memory.get("interactions"), list) else []):
             if not isinstance(item, dict):
                 continue
             item_profile = item.get("profile", {})
@@ -1154,7 +1152,7 @@ class FitPaxAssistant:
 
     def _recent_nutrition_keys(self, profile: dict, limit: int = 12) -> set[str]:
         recent: set[str] = set()
-        for item in reversed(self.memory.get("interactions", []) if isinstance(self.memory.get("interactions"), list) else []):
+        for item in reversed(memory.get("interactions", []) if isinstance(memory.get("interactions"), list) else []):
             if not isinstance(item, dict):
                 continue
             item_profile = item.get("profile", {})
@@ -1270,6 +1268,8 @@ class FitPaxAssistant:
         return picks[:3]
 
     def recommend(self, payload: dict) -> dict:
+        session_id = payload.get("session_id", "default")
+        memory = self._load_memory(session_id)
         self.refresh_if_needed()
         profile = {
             "gender": payload.get("gender"),
@@ -1297,8 +1297,8 @@ class FitPaxAssistant:
                 meal_guidance = "Use vegetarian protein sources like eggs or dairy if you eat them, plus beans, lentils, tofu, tempeh, nuts, and seeds."
                 reply = "Here is a vegetarian diet focus. " + meal_guidance
             nutrition_examples = self._nutrition_picks(requested_profile)
-            self.memory["profile"] = requested_profile
-            interactions = self.memory.setdefault("interactions", [])
+            memory["profile"] = requested_profile
+            interactions = memory.setdefault("interactions", [])
             interactions.append(
                 {
                     "type": "plan",
@@ -1307,9 +1307,8 @@ class FitPaxAssistant:
                     "reply": reply,
                 }
             )
-            self.memory["interactions"] = interactions[-100:]
-            self._memory_changed = True
-            self._save_memory()
+            memory["interactions"] = interactions[-100:]
+            self._save_memory(session_id, memory)
             return {
                 "ok": True,
                 "kind": "plan",
@@ -1330,7 +1329,7 @@ class FitPaxAssistant:
                 "knowledge_examples": knowledge_matches,
             }
 
-        memory_profile = self.memory.get("profile", {}) if isinstance(self.memory.get("profile"), dict) else {}
+        memory_profile = memory.get("profile", {}) if isinstance(memory.get("profile"), dict) else {}
         for key in ("gender", "goal", "bmi_category", "diet_type"):
             if not profile.get(key) and memory_profile.get(key):
                 profile[key] = memory_profile.get(key)
@@ -1367,6 +1366,7 @@ class FitPaxAssistant:
             meal_guidance = "Use a gentle calorie deficit with nutrient-dense foods and portion control, while keeping protein high."
 
         nutrition_examples = self._nutrition_picks(profile)
+        assessment_text = self._generate_assessment(profile)
         reply = (
             f"Here is your plan for a {profile['goal'].replace('_', ' ')} goal. "
             f"{weekly_guidance} "
@@ -1375,8 +1375,8 @@ class FitPaxAssistant:
         if knowledge_reply:
             reply = f"{reply} {knowledge_reply}"
 
-        self.memory["profile"] = profile
-        interactions = self.memory.setdefault("interactions", [])
+        memory["profile"] = profile
+        interactions = memory.setdefault("interactions", [])
         interactions.append(
             {
                 "type": "plan",
@@ -1388,9 +1388,8 @@ class FitPaxAssistant:
                 "knowledge_examples": knowledge_matches,
             }
         )
-        self.memory["interactions"] = interactions[-100:]
-        self._memory_changed = True
-        self._save_memory()
+        memory["interactions"] = interactions[-100:]
+        self._save_memory(session_id, memory)
 
         return {
             "ok": True,
@@ -1404,9 +1403,62 @@ class FitPaxAssistant:
             "nutrition_examples": nutrition_examples,
             "suggestions": self._suggestions(profile, "plan"),
             "recommendation": recommendation_to_dict(recommendation),
+            "assessment": assessment_text,
             "parsed": parsed,
             "knowledge_examples": knowledge_matches,
         }
+
+    def _generate_assessment(self, profile: dict) -> str:
+        w = profile.get("weight")
+        h = profile.get("height")
+        if not w or not h:
+            return ""
+        
+        gender = profile.get("gender", "Male").lower()
+        
+        # BMI Calculation
+        height_m = h / 100
+        bmi = w / (height_m * height_m)
+        
+        # BMR (Mifflin-St Jeor) - assuming age 30
+        if gender == "female":
+            bmr = 10 * w + 6.25 * h - 5 * 30 - 161
+        else:
+            bmr = 10 * w + 6.25 * h - 5 * 30 + 5
+            
+        tdee = bmr * 1.55 # moderate activity
+        
+        goal = profile.get("goal", "fat_burn")
+        if goal == "muscle_gain":
+            target_cal = tdee + 400
+        else:
+            target_cal = tdee - 500
+            
+        lines = [
+            f"🎯 Accurate Physiological Assessment:",
+            f"• Body Mass Index (BMI): {bmi:.1f} ({profile.get('bmi_category', 'Calculated')})",
+            f"• Basal Metabolic Rate (BMR): {int(bmr)} kcal/day",
+            f"• Total Daily Energy Expenditure (TDEE): ~{int(tdee)} kcal/day",
+            f"• Daily Target Calories for Goal: {int(target_cal)} kcal/day",
+            f"• Recommended Protein Intake: ~{int(w * 2.2)}g per day"
+        ]
+        
+        # Add body measurements if provided
+        chest, waist, hips = profile.get("chest"), profile.get("waist"), profile.get("hips")
+        if chest or waist or hips:
+            lines.append(f"• Measurements Logged: Chest {chest or '-'}cm, Waist {waist or '-'}cm, Hips {hips or '-'}cm")
+        
+        biceps, body_fat = profile.get("biceps"), profile.get("body_fat")
+        if biceps:
+            lines.append(f"• Biceps Logged: {biceps}cm")
+        if body_fat:
+            lines.append(f"• Current Body Fat: {body_fat}%")
+            
+        med = profile.get("medical_history")
+        if med and str(med).strip().lower() not in ["none", "no", "n/a", ""]:
+            lines.append(f"⚠️ Medical Note: Acknowledged ({med}). Please ensure workouts align with your physician's advice.")
+            
+        return "\n".join(lines)
 
     def _answer_topic(self, message: str, profile: dict) -> dict:
         text = _normalize_text(message)
@@ -1425,7 +1477,7 @@ class FitPaxAssistant:
                 reply += " For fat loss, mix steady cardio with 2 strength days to keep muscle."
             return {"ok": True, "kind": "answer", "reply": reply, "exercise_examples": [], "nutrition_examples": self._nutrition_picks(profile), "suggestions": self._suggestions(profile, "answer"), "parsed": parsed, "knowledge_examples": knowledge_matches}
 
-        if any(keyword in text for keyword in ("exercise", "workout", "routine", "training", "gym", "show me exercises", "show exercise images")):
+        if parsed.get("intent") == "workout_advice" or any(keyword in text for keyword in ("exercise", "workout", "routine", "training", "gym", "show me exercises", "show exercise images", "excersize", "exercis")):
             goal = profile.get("goal") or _extract_profile_from_text(text).get("goal")
             bmi = profile.get("bmi_category") or _extract_profile_from_text(text).get("bmi_category")
             exercise_profile = {"goal": goal or "muscle_gain", "bmi_category": bmi}
@@ -1443,7 +1495,7 @@ class FitPaxAssistant:
                 "kind": "answer",
                 "reply": reply,
                 "exercise_examples": exercises,
-                "nutrition_examples": self._nutrition_picks(exercise_profile),
+                "nutrition_examples": [],
                 "suggestions": self._suggestions(exercise_profile, "answer"),
                 "parsed": parsed,
                 "knowledge_examples": knowledge_matches,
@@ -1522,11 +1574,11 @@ class FitPaxAssistant:
             "knowledge_examples": knowledge_matches,
         }
 
-    def _memory_match(self, message: str) -> Optional[dict]:
+    def _memory_match(self, message: str, memory: dict) -> Optional[dict]:
         text = _normalize_text(message)
         best: Optional[dict] = None
         best_score = 0.0
-        for item in reversed(self.memory.get("interactions", []) if isinstance(self.memory.get("interactions"), list) else []):
+        for item in reversed(memory.get("interactions", []) if isinstance(memory.get("interactions"), list) else []):
             if not isinstance(item, dict):
                 continue
             other = _normalize_text(str(item.get("message", "")))
@@ -1598,6 +1650,8 @@ class FitPaxAssistant:
         return {"ok": True, "message": "Feedback saved.", "feedback_count": len(self.feedback)}
 
     def chat(self, payload: dict) -> dict:
+        session_id = payload.get("session_id", "default")
+        memory = self._load_memory(session_id)
         self.refresh_if_needed()
         message = str(payload.get("message", "") or "").strip()
         state = payload.get("state", {}) or {}
@@ -1628,16 +1682,15 @@ class FitPaxAssistant:
         parsed = _extract_intent(f"{message} {description}")
 
         text = _normalize_text(message)
-        memory_hit = self._memory_match(message)
+        memory_hit = self._memory_match(message, memory)
         repeat_intent = any(keyword in text for keyword in ("repeat", "same", "previous", "that plan", "that answer", "as before", "last one"))
         if memory_hit and memory_hit.get("reply") and repeat_intent:
             if any(profile.values()):
-                self.memory["profile"] = profile
-            interactions = self.memory.setdefault("interactions", [])
+                memory["profile"] = profile
+            interactions = memory.setdefault("interactions", [])
             interactions.append({"type": "memory", "message": message, "profile": profile, "reply": memory_hit.get("reply")})
-            self.memory["interactions"] = interactions[-100:]
-            self._memory_changed = True
-            self._save_memory()
+            memory["interactions"] = interactions[-100:]
+            self._save_memory(session_id, memory)
             return {
                 "ok": True,
                 "kind": "memory",
@@ -1650,7 +1703,7 @@ class FitPaxAssistant:
                 "parsed": parsed,
             }
 
-        memory_profile = self.memory.get("profile", {}) if isinstance(self.memory.get("profile"), dict) else {}
+        memory_profile = memory.get("profile", {}) if isinstance(memory.get("profile"), dict) else {}
         for key in ("gender", "goal", "bmi_category", "diet_type"):
             if not profile.get(key) and memory_profile.get(key):
                 profile[key] = memory_profile.get(key)
@@ -1669,7 +1722,7 @@ class FitPaxAssistant:
             answer.setdefault("defaults_used", [])
             answer.setdefault("suggestions", self._suggestions(profile, "answer"))
             answer.setdefault("parsed", parsed)
-            interactions = self.memory.setdefault("interactions", [])
+            interactions = memory.setdefault("interactions", [])
             interactions.append(
                 {
                     "type": "question",
@@ -1680,9 +1733,8 @@ class FitPaxAssistant:
                     "nutrition_examples": answer.get("nutrition_examples", []),
                 }
             )
-            self.memory["interactions"] = interactions[-100:]
-            self._memory_changed = True
-            self._save_memory()
+            memory["interactions"] = interactions[-100:]
+            self._save_memory(session_id, memory)
             return answer
 
         plan_keywords = ("plan", "routine", "recommend", "build", "cut", "lose", "gain", "fat", "muscle", "skinny", "bulk", "diet", "vegan", "vegetarian")
@@ -1707,7 +1759,7 @@ class FitPaxAssistant:
         answer.setdefault("defaults_used", [])
         answer.setdefault("suggestions", self._suggestions(profile, "answer"))
         answer.setdefault("parsed", parsed)
-        interactions = self.memory.setdefault("interactions", [])
+        interactions = memory.setdefault("interactions", [])
         interactions.append(
             {
                 "type": "question",
@@ -1718,11 +1770,10 @@ class FitPaxAssistant:
                 "nutrition_examples": answer.get("nutrition_examples", []),
             }
         )
-        self.memory["interactions"] = interactions[-100:]
+        memory["interactions"] = interactions[-100:]
         if any(profile.values()):
-            self.memory["profile"] = profile
-        self._memory_changed = True
-        self._save_memory()
+            memory["profile"] = profile
+            self._save_memory(session_id, memory)
         return answer
 
     def retrain(self) -> dict:
