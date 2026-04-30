@@ -1,0 +1,80 @@
+{
+  "lookup": {
+    "female": {
+      "muscle_gain": {
+        "normal_weight": {
+          "exercise_schedule": "Moderate cardio, Strength training, and 5000 steps walking",
+          "meal_plan": "Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+        },
+        "underweight": {
+          "exercise_schedule": "Light weightlifting, Yoga, and 2000 steps walking",
+          "meal_plan": "High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+        },
+        "overweight": {
+          "exercise_schedule": "High-intensity interval training (HIIT), Cardio, and 8000 steps walking",
+          "meal_plan": "Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+        },
+        "obesity": {
+          "exercise_schedule": "Low-impact cardio, Swimming, and 10000 steps walking",
+          "meal_plan": "Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+        }
+      },
+      "fat_burn": {
+        "overweight": {
+          "exercise_schedule": "High-intensity interval training (HIIT), Cardio, and 8000 steps walking",
+          "meal_plan": "Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+        },
+        "obesity": {
+          "exercise_schedule": "Low-impact cardio, Swimming, and 10000 steps walking",
+          "meal_plan": "Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+        },
+        "underweight": {
+          "exercise_schedule": "Light weightlifting, Yoga, and 2000 steps walking",
+          "meal_plan": "High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+        },
+        "normal_weight": {
+          "exercise_schedule": "Moderate cardio, Strength training, and 5000 steps walking",
+          "meal_plan": "Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+        }
+      }
+    },
+    "male": {
+      "fat_burn": {
+        "underweight": {
+          "exercise_schedule": "Light weightlifting, Yoga, and 2000 steps walking",
+          "meal_plan": "High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+        },
+        "normal_weight": {
+          "exercise_schedule": "Moderate cardio, Strength training, and 5000 steps walking",
+          "meal_plan": "Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+        },
+        "obesity": {
+          "exercise_schedule": "Low-impact cardio, Swimming, and 10000 steps walking",
+          "meal_plan": "Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+        },
+        "overweight": {
+          "exercise_schedule": "High-intensity interval training (HIIT), Cardio, and 8000 steps walking",
+          "meal_plan": "Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+        }
+      },
+      "muscle_gain": {
+        "normal_weight": {
+          "exercise_schedule": "Moderate cardio, Strength training, and 5000 steps walking",
+          "meal_plan": "Balanced diet with moderate protein and carbohydrates: Chicken breast, brown rice, spinach, eggs, apple"
+        },
+        "overweight": {
+          "exercise_schedule": "High-intensity interval training (HIIT), Cardio, and 8000 steps walking",
+          "meal_plan": "Low-carb, high-fiber diet: Avocado, grilled fish, broccoli, almonds, leafy greens"
+        },
+        "underweight": {
+          "exercise_schedule": "Light weightlifting, Yoga, and 2000 steps walking",
+          "meal_plan": "High-calorie, protein-rich diet: Whole milk, peanut butter, eggs, salmon, sweet potatoes"
+        },
+        "obesity": {
+          "exercise_schedule": "Low-impact cardio, Swimming, and 10000 steps walking",
+          "meal_plan": "Low-calorie, nutrient-dense diet with portion control: carrot sticks,grilled chicken breast,steamed broccoli, Greek yogurt, mixed nuts, baked salmon, leafy greens, roasted sweet potatoes"
+        }
+      }
+    }
+  }
+}

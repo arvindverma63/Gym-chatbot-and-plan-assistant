@@ -1,0 +1,65 @@
+[
+  {
+    "rating": "up",
+    "name": "barbell incline bench press",
+    "reply": "helpful",
+    "message": "show exercise details",
+    "profile": {
+      "goal": "muscle_gain",
+      "bmi_category": "Underweight"
+    },
+    "created_at": null
+  },
+  {
+    "rating": "down",
+    "name": "Light weightlifting, Yoga, and 2000 steps walking",
+    "reply": "Here is your plan for a  goal. Aim for 150 to 300 minutes of moderate aerobic activity each week plus 2 strength days, starting small if needed. You likely need more calories and protein than a fat-loss plan. Keep meals frequent and nutrient-dense.",
+    "message": "",
+    "profile": {
+      "gender": "Male",
+      "goal": "",
+      "bmi_category": "Underweight",
+      "diet_type": "vegan"
+    },
+    "created_at": null
+  },
+  {
+    "rating": "down",
+    "name": "Light weightlifting, Yoga, and 2000 steps walking",
+    "reply": "Here is your plan for a muscle gain goal. Aim for 2 to 4 strength sessions per week and at least 2 muscle-strengthening days, with gradual progression. You likely need more calories and protein than a fat-loss plan. Keep meals frequent and nutrient-dense.",
+    "message": "muscle_gain",
+    "profile": {
+      "gender": "Male",
+      "goal": "muscle_gain",
+      "bmi_category": "Underweight",
+      "diet_type": "vegan"
+    },
+    "created_at": null
+  },
+  {
+    "rating": "up",
+    "name": "Here is a more grounded diet answer based on the nutrition knowledge base: A good Vegan lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+    "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: A good Vegan lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+    "message": "muscle_gain",
+    "profile": {
+      "gender": "Male",
+      "goal": "muscle_gain",
+      "bmi_category": "Underweight",
+      "diet_type": "vegan"
+    },
+    "created_at": null
+  },
+  {
+    "rating": "down",
+    "name": "Here is a more grounded diet answer based on the nutrition knowledge base: A good Mediterranean lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+    "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: A good Mediterranean lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+    "message": "muscle_gain",
+    "profile": {
+      "gender": "Male",
+      "goal": "muscle_gain",
+      "bmi_category": "Underweight",
+      "diet_type": "vegan"
+    },
+    "created_at": null
+  }
+]

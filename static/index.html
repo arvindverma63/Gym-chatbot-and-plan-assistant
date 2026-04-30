@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FitPax AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="compact-card">
+        <div class="header-row">
+          <div>
+            <p class="eyebrow">FitPax AI</p>
+            <h1>Gym chatbot and plan assistant</h1>
+          </div>
+          <div class="status-pill"><span class="dot"></span> Auto-learning</div>
+        </div>
+
+        <p class="subtitle">
+          Ask about workouts, meals, muscle gain, fat loss, or fill the quick profile to get a full plan.
+        </p>
+
+        <form id="profileForm" class="profile-grid">
+          <label>
+            <span>Gender</span>
+            <select id="gender">
+              <option value="">Loading...</option>
+            </select>
+          </label>
+          <label>
+            <span>Goal</span>
+            <select id="goal">
+              <option value="">Loading...</option>
+            </select>
+          </label>
+          <label>
+            <span>BMI Category</span>
+            <select id="bmiCategory">
+              <option value="">Loading...</option>
+            </select>
+          </label>
+          <label>
+            <span>Diet type</span>
+            <select id="dietType">
+              <option value="">Loading...</option>
+            </select>
+          </label>
+          <label class="wide">
+            <span>Short description</span>
+            <textarea
+              id="description"
+              rows="2"
+              placeholder="Example: i am very skinny and i want build mussles"
+            ></textarea>
+          </label>
+        </form>
+
+        <div class="chip-row">
+          <button class="chip" data-fill="How many days should I train each week?">Weekly training</button>
+          <button class="chip" data-fill="I am skinny and want to build muscles.">Gain muscle</button>
+          <button class="chip" data-fill="How much cardio should I do to lose fat?">Lose fat</button>
+          <button class="chip" data-fill="What should I eat for muscle gain?">Meal advice</button>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chatForm" class="chat-form">
+          <input
+            id="messageInput"
+            type="text"
+            placeholder="Ask a question or describe your goal..."
+            autocomplete="off"
+          />
+          <button type="submit" class="secondary">Ask</button>
+          <button type="button" id="planBtn">Get plan</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

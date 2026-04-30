@@ -1,0 +1,60 @@
+This context file summarizes the evolution, technical stack, and current capabilities of the **FitPax AI** project as developed throughout our session.
+
+---
+
+## 📄 Project Context: FitPax AI Assistant
+
+### 1. Project Overview
+**FitPax AI** is a professional, dataset-grounded fitness and nutrition assistant. It evolved from a simple CSV lookup tool into a generative-style AI coach that supports natural language processing (NLP), persistent user memory, and dynamic retrieval from multiple fitness datasets.
+
+---
+
+### 2. Technical Stack
+*   **Backend:** Python (Flask/FastAPI style server).
+*   **Frontend:** HTML5, CSS3 (Modern, compact UI), and Vanilla JavaScript.
+*   **Data Layer:** 
+    *   `GYM.csv`: Core recommendation mapping.
+    *   **Kaggle Integration:** Automated syncing of exercise and nutrition datasets.
+    *   **Knowledge Base:** A local indexed repository (`knowledge.jsonl`) with ~11,500+ fitness records.
+*   **AI Engine:** 
+    *   **NLP Parser:** Custom intent classifier and entity extractor.
+    *   **RAG (Retrieval-Augmented Generation):** Matches user queries to the most relevant dataset examples.
+    *   **Context Management:** Persistent `memory.json` to store user profiles (BMI, goals, diet types).
+
+---
+
+### 3. Key Features
+*   **Natural Language Understanding:** Handles typos and casual phrasing (e.g., *"i am very skinny and i want build mussles"*).
+*   **Dynamic UI:** The dashboard adapts based on server-side options (`/options`) and features interactive suggestion chips.
+*   **Multi-Turn Conversation:** Remembers previous inputs (e.g., if you talk about diet first, it remembers your goal when you later ask for exercises).
+*   **Visual Exercise Guides:** Displays exercise cards with images/GIFs sourced from Kaggle datasets.
+*   **Dietary Personalization:** Dedicated logic for Vegan, Vegetarian, and specialized nutrition requests.
+*   **Continuous Learning:** Includes a `/feedback` loop where user "Helpful/Not Helpful" clicks bias future ranking results.
+
+---
+
+### 4. File Structure
+*   `server.py`: The main API hub.
+*   `assistant_core.py`: The "Brain"—contains NLP logic, RAG retrieval, and memory handling.
+*   `sync_kaggle.py` / `sync_fitness_datasets.py`: Utility scripts to fetch and update the knowledge base.
+*   `train_model.py`: Script for initial model training/lookup table generation.
+*   `static/`: Contains the frontend assets (`index.html`, `styles.css`, `app.js`).
+*   `data/`: Folder containing raw CSVs and Kaggle downloads.
+
+---
+
+### 5. Current Performance & Usage
+*   **Command to Run:** `python server.py`
+*   **Access Point:** `[http://127.0.0.1:8000](http://127.0.0.1:8000)`
+*   **Current State:** The assistant is capable of generating structured plans, providing specific food nutrition data, and suggesting varied exercises while avoiding repetition.
+
+---
+
+### 6. Known Improvements Needed (Roadmap)
+*   **Fixing Response Drift:** Ensure "Meal Plan" and "Workout" sections don't duplicate the same text when specific data is missing.
+*   **Targeted Muscle Logic:** Refining the NLP to better map specific body parts (e.g., "Back exercises") to the Kaggle GIF library.
+*   **Scaling:** Transitioning from a rule-based NLP to a small local Transformer model (like DistilBERT) for even higher accuracy.
+
+---
+
+**Would you like me to focus on fixing the "No exercise images" issue for specific muscle groups next?**
