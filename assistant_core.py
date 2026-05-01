@@ -20,6 +20,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
+import random
 from gym_ai import GymAdvisor, MODEL_FILENAME, recommendation_to_dict
 
 
@@ -27,13 +28,29 @@ DEFAULT_GENDER = "Male"
 WELCOME_TEXT = "FitPax AI is ready. Ask me about workouts, meals, or tell me your goal."
 
 WEEKLY_GUIDANCE = {
-    "muscle_gain": "Aim for 2 to 4 strength sessions per week and at least 2 muscle-strengthening days, with gradual progression.",
-    "fat_burn": "Aim for 150 to 300 minutes of moderate aerobic activity each week plus 2 strength days, starting small if needed.",
+    "muscle_gain": [
+        "For optimal muscle growth, prioritize 3 to 5 strength-focused sessions per week. Focus on progressive overload (gradually increasing weight or reps) and ensure you have at least 2 full rest days for recovery.",
+        "To build mass effectively, aim for a split routine (like Upper/Lower or PPL) 4 days a week. Keep your intensity high and track your lifts to ensure you are getting stronger over time.",
+        "Muscle hypertrophy requires consistency. Aim for 2-4 heavy lifting sessions weekly, targeting all major muscle groups, and stay active on rest days with light walking."
+    ],
+    "fat_burn": [
+        "To maximize fat loss, combine 150-300 minutes of moderate aerobic activity (like brisk walking or cycling) with 2-3 full-body strength sessions each week to preserve lean muscle.",
+        "A mix of high-intensity intervals (HIIT) twice a week and steady-state cardio 3 times a week is excellent for burning calories. Don't forget 2 days of resistance training to keep your metabolism high.",
+        "Focus on staying active throughout the day. Aim for 10,000 steps daily plus 3 focused cardio sessions and 2 strength workouts per week to create a sustainable calorie deficit."
+    ],
 }
 
 MEAL_GUIDANCE = {
-    "muscle_gain": "Focus on protein-rich meals, enough calories, and balanced carbs so you can recover and grow.",
-    "fat_burn": "Focus on nutrient-dense meals, portion control, lean protein, vegetables, fruit, and whole grains.",
+    "muscle_gain": [
+        "Fuel your workouts with a slight calorie surplus. Prioritize high-quality protein (1.6g-2.2g per kg of body weight) and complex carbohydrates like oats, brown rice, and sweet potatoes for sustained energy.",
+        "Focus on nutrient-dense meals with plenty of protein and healthy fats. Ensure you're eating enough to support recovery—aim for protein at every meal and a slow-digesting protein source before bed.",
+        "Consistency in nutrition is key. Balance your macros with 40% carbs, 30% protein, and 30% fats. Stay hydrated and consider meal prepping to ensure you hit your daily calorie targets."
+    ],
+    "fat_burn": [
+        "Focus on a modest calorie deficit while keeping protein high to protect your muscles. Fill half your plate with fibrous vegetables, choose lean proteins, and limit refined sugars and processed snacks.",
+        "Prioritize whole foods that keep you full longer. High-fiber choices like beans, lentils, and leafy greens are your best friends. Drink plenty of water and try to eat your largest meals around your most active times.",
+        "Sustainable fat loss comes from smart choices. Swap high-calorie sauces for spices, choose water over soda, and ensure every meal has a protein source to help manage hunger throughout the day."
+    ],
 }
 
 FAQ_TOPICS = {
@@ -90,6 +107,40 @@ BMI_ALIASES = {
 DIET_ALIASES = {
     "vegan": ["vegan", "plant based", "plant-based", "no animal products", "strict vegan"],
     "vegetarian": ["vegetarian", "veg", "no meat", "meatless"],
+    "non-veg": ["non veg", "non-veg", "meat eater", "omnivore", "everything", "all foods"],
+}
+ 
+GREETING_ALIASES = {
+    "hi": ["hi", "hello", "hey", "hola", "greetings", "good morning", "good afternoon", "good evening", "hi fitpax", "hello ai"],
+    "how_are_you": ["how are you", "how are things", "how it going", "how you doing", "u okay", "how is it going", "how r u"],
+    "who_are_you": ["who are you", "what are you", "your name", "what is your name", "who created you"],
+    "thank_you": ["thanks", "thank you", "thx", "appreciated", "thanks for help", "nice", "great"],
+}
+
+SMALL_TALK_RESPONSES = {
+    "hi": [
+        "Hello! I'm your FitPax AI trainer assistant. How can I help you with your fitness journey today?",
+        "Hi there! Ready to crush some goals? What's on your mind?",
+        "Greetings! I'm here to help you with your workout and nutrition. How are you doing?",
+        "Hey! I'm FitPax AI. Let's get to work on your fitness objective!"
+    ],
+    "how_are_you": [
+        "I'm doing great and ready to help you get fit! How about you?",
+        "I'm powered up and ready for some training! How are you feeling today?",
+        "I'm feeling like a champion! Ready to help you reach your goals. How can I assist?",
+        "All systems go! I'm optimized and ready to guide your training."
+    ],
+    "who_are_you": [
+        "I am FitPax AI, your personal fitness and nutrition assistant. I use data-driven insights to help you build muscle, lose fat, and eat better.",
+        "I'm FitPax AI, an advanced trainer assistant designed to help you optimize your health and fitness through personalized plans.",
+        "I was built to be your digital coach, combining sports science and nutrition data to help you succeed."
+    ],
+    "thank_you": [
+        "You're very welcome! Let's keep working towards those goals.",
+        "No problem! I'm always here to help. What's next on our list?",
+        "Glad I could help! Feel free to ask if you need anything else.",
+        "Anytime! Remember, consistency is the key to progress."
+    ]
 }
 
 STOPWORDS = {
@@ -187,6 +238,15 @@ INTENT_EXAMPLES = {
         "as above",
         "like that",
     ],
+    "greeting": [
+        "hi",
+        "hello",
+        "hey",
+        "how are you",
+        "who are you",
+        "thanks",
+        "thank you",
+    ],
 }
 
 
@@ -260,6 +320,15 @@ MUSCLE_ALIASES = {
 def _canonical_muscle(value: str) -> str:
     key = _muscle_key(value)
     return MUSCLE_ALIASES.get(key, key)
+
+
+def _extract_muscles(text: str) -> set[str]:
+    normalized = _normalize_text(text)
+    found = set()
+    for key, canonical in MUSCLE_ALIASES.items():
+        if re.search(rf"\b{re.escape(key)}\b", normalized):
+            found.add(canonical)
+    return found
 
 
 def _load_json_list(path: Path) -> list[dict]:
@@ -350,7 +419,9 @@ def _extract_intent(text: str) -> dict:
     best_score = scores.get(best_intent, 0.0)
 
     if best_score < 0.42:
-        if any(token in normalized for token in ("exercise", "workout", "training", "gym", "cardio", "lift", "routine")):
+        if any(_contains_phrase(normalized, g) for phrases in GREETING_ALIASES.values() for g in phrases):
+            best_intent = "greeting"
+        elif any(token in normalized for token in ("exercise", "workout", "training", "gym", "cardio", "lift", "routine")):
             best_intent = "workout_advice"
         elif any(token in normalized for token in ("diet", "meal", "food", "eat", "nutrition", "vegan", "vegetarian")):
             best_intent = "diet_advice"
@@ -469,6 +540,7 @@ class FitPaxAssistant:
             self.advisor = GymAdvisor.load(self.gym_csv, self.model_path)
         self.exercises = self._load_exercises()
         self.visual_exercises = self._load_visual_exercises()
+        self._enrich_exercises()
         self.nutrition = self._load_nutrition()
         self.knowledge = self._load_knowledge()
         self._index_knowledge()
@@ -527,6 +599,24 @@ class FitPaxAssistant:
             exercises.extend(self._load_csv_exercise_file(path))
         return self._dedupe_exercises(exercises)
 
+    def _enrich_exercises(self) -> None:
+        """Attempts to fill missing gif_url and exerciseId by matching names against visual database."""
+        if not self.visual_exercises:
+            return
+        
+        visual_map = {e["name"].lower(): e for e in self.visual_exercises if e.get("name")}
+        for e in self.exercises:
+            if not e.get("gif_url") or not e.get("exerciseId"):
+                name_key = e["name"].lower()
+                match = visual_map.get(name_key)
+                if match:
+                    if not e.get("gif_url"):
+                        e["gif_url"] = match.get("gif_url")
+                    if not e.get("exerciseId"):
+                        e["exerciseId"] = match.get("exerciseId")
+                    if not e.get("local_gif_path"):
+                        e["local_gif_path"] = match.get("local_gif_path")
+
     def _load_visual_exercises(self) -> list[dict]:
         sample_root = self._find_exercisedb_sample_root()
         if not sample_root:
@@ -562,7 +652,7 @@ class FitPaxAssistant:
                 "bodyParts": list(entry.get("bodyParts") or []),
                 "category": "visual",
                 "exerciseId": entry.get("exerciseId"),
-                "gif_url": f"/exercise-gif/{entry.get('exerciseId')}" if entry.get("exerciseId") else None,
+                "gif_url": f"/exercise-gif/{entry.get('exerciseId')}" if (entry.get("exerciseId") and gif_path) else None,
                 "local_gif_path": str(gif_path) if gif_path else None,
             }
             output.append(item)
@@ -642,7 +732,30 @@ class FitPaxAssistant:
             return records
         for path in knowledge_root.rglob("*.jsonl"):
             records.extend(self._load_knowledge_jsonl(path))
+        for path in knowledge_root.rglob("*.json"):
+            records.extend(self._load_knowledge_json(path))
         return self._dedupe_knowledge(records)
+
+    def _load_knowledge_json(self, path: Path) -> list[dict]:
+        """Loads knowledge from standard JSON lists, supporting 'patterns' and 'responses'."""
+        raw = _load_json_list(path)
+        records: list[dict] = []
+        for entry in raw:
+            if not isinstance(entry, dict):
+                continue
+            # Support both prompt/response and patterns/responses formats
+            if "prompt" in entry and "response" in entry:
+                records.append({"prompt": str(entry["prompt"]), "response": str(entry["response"]), "topic": entry.get("topic", "general")})
+            elif "patterns" in entry and "responses" in entry:
+                # We'll normalize these into multiple prompt/response pairs for the indexer
+                for pattern in entry["patterns"]:
+                    records.append({
+                        "prompt": str(pattern), 
+                        "response": random.choice(entry["responses"]), 
+                        "all_responses": entry["responses"],
+                        "topic": entry.get("topic", "persona")
+                    })
+        return records
 
     def _load_knowledge_jsonl(self, path: Path) -> list[dict]:
         records: list[dict] = []
@@ -679,7 +792,7 @@ class FitPaxAssistant:
         rows = _csv_rows(path)
         records: list[dict] = []
         for row in rows:
-            name = row.get("name") or row.get("food") or row.get("title")
+            name = row.get("food") or row.get("name") or row.get("title")
             if not name:
                 continue
             records.append(
@@ -688,8 +801,11 @@ class FitPaxAssistant:
                     "calories": self._parse_float(row.get("calories")),
                     "protein": self._parse_float(row.get("protein")),
                     "fiber": self._parse_float(row.get("fiber")),
-                    "carbohydrate": self._parse_float(row.get("carbohydrate")),
-                    "fat": self._parse_float(row.get("fat")),
+                    "carbohydrate": self._parse_float(row.get("carbohydrates") or row.get("carbohydrate")),
+                    "fat": self._parse_float(row.get("total_fat") or row.get("fat")),
+                    "saturated_fat": self._parse_float(row.get("saturated_fat")),
+                    "potassium": self._parse_float(row.get("potassium")),
+                    "sodium": self._parse_float(row.get("sodium")),
                     "source": path.name,
                 }
             )
@@ -841,7 +957,7 @@ class FitPaxAssistant:
         if intent:
             candidate_ids.update(self.knowledge_by_intent.get(intent, []))
         if not candidate_ids:
-            candidate_ids.update(range(min(len(self.knowledge), 200)))
+            return []
         if intent in {"diet_advice", "nutrition_info"}:
             diet_terms = ("diet", "meal", "protein", "calorie", "food", "eat", "vegan", "vegetarian", "nutrition")
             filtered_ids = [
@@ -899,7 +1015,7 @@ class FitPaxAssistant:
 
     def _generate_knowledge_reply(self, text: str, profile: dict, intent: str) -> tuple[str, list[dict]]:
         matches = self._retrieve_knowledge(text, intent, profile)
-        if not matches:
+        if not matches or matches[0].get("score", 0.0) < 0.65:
             return "", []
 
         top = matches[0]
@@ -1042,19 +1158,6 @@ class FitPaxAssistant:
             "dessert",
             "drink mix",
             "gelatin",
-            "beef",
-            "chicken",
-            "turkey",
-            "pork",
-            "fish",
-            "salmon",
-            "tuna",
-            "shrimp",
-            "egg",
-            "milk",
-            "cheese",
-            "yogurt",
-            "whey",
         )
 
         def score(item: dict) -> tuple:
@@ -1064,49 +1167,35 @@ class FitPaxAssistant:
             name = str(item.get("name", "")).lower()
             penalties = sum(1 for word in avoid_words if word in name)
             feedback_bonus = self._nutrition_feedback_bonus(str(item.get("name", "")))
-            vegan_penalty = 0
+            diet_penalty = 0
             vegan_focus_bonus = 0
+            
+            meat_words = ("beef", "chicken", "turkey", "pork", "fish", "salmon", "tuna", "shrimp", "meat", "lamb", "bacon", "ham")
+            animal_words = meat_words + ("egg", "milk", "cheese", "yogurt", "whey", "butter", "cream", "honey")
+            
             if diet_type == "vegan":
-                vegan_penalty = sum(
-                    1
-                    for word in (
-                        "beef",
-                        "chicken",
-                        "turkey",
-                        "pork",
-                        "fish",
-                        "salmon",
-                        "tuna",
-                        "shrimp",
-                        "egg",
-                        "milk",
-                        "cheese",
-                        "yogurt",
-                        "whey",
-                        "butter",
-                        "cream",
-                        "honey",
-                    )
-                    if word in name
-                )
+                diet_penalty = sum(1 for word in animal_words if word in name)
                 vegan_focus_bonus = sum(2 for word in vegan_keywords if word in name)
+            elif diet_type == "vegetarian":
+                diet_penalty = sum(1 for word in meat_words if word in name)
+                
             if goal == "muscle_gain" or bmi == "Underweight":
                 bonus = sum(1 for word in muscle_food_keywords if word in name)
-                return (penalties + vegan_penalty, -vegan_focus_bonus, -feedback_bonus, -bonus, -protein, -calories, item["name"])
+                return (penalties + diet_penalty, -vegan_focus_bonus, -feedback_bonus, -bonus, -protein, -calories, item["name"])
             if goal == "fat_burn" or bmi in {"Overweight", "Obesity"}:
                 bonus = sum(1 for word in fat_loss_keywords if word in name)
-                return (penalties + vegan_penalty, -vegan_focus_bonus, -feedback_bonus, calories, -bonus, -fiber, item["name"])
+                return (penalties + diet_penalty, -vegan_focus_bonus, -feedback_bonus, calories, -bonus, -fiber, item["name"])
             bonus = sum(1 for word in muscle_food_keywords if word in name)
-            return (penalties + vegan_penalty, -vegan_focus_bonus, -feedback_bonus, -bonus, -protein, calories, item["name"])
+            return (penalties + diet_penalty, -vegan_focus_bonus, -feedback_bonus, -bonus, -protein, calories, item["name"])
 
         ranked.sort(key=score)
-        picks = [item for item in ranked if str(item.get("name", "")).strip().lower() not in recent_foods][:4]
-        if len(picks) < 4:
+        picks = [item for item in ranked if str(item.get("name", "")).strip().lower() not in recent_foods][:8]
+        if len(picks) < 8:
             for item in ranked:
                 if item in picks:
                     continue
                 picks.append(item)
-                if len(picks) >= 4:
+                if len(picks) >= 8:
                     break
         return [
             {
@@ -1114,6 +1203,8 @@ class FitPaxAssistant:
                 "calories": item.get("calories"),
                 "protein": item.get("protein"),
                 "fiber": item.get("fiber"),
+                "carbohydrate": item.get("carbohydrate"),
+                "fat": item.get("fat"),
             }
             for item in picks
         ]
@@ -1184,33 +1275,45 @@ class FitPaxAssistant:
         recent_keys = self._recent_exercise_keys(profile)
 
         if goal == "fat_burn":
-            ranked = sorted(
-                pool,
+            target_muscles = profile.get("target_muscles") or set()
+            ranked = [exercise for exercise in pool if exercise.get("gif_url") and exercise.get("instruction")]
+            if target_muscles:
+                # If specific muscles requested, filter for them first
+                muscle_ranked = [
+                    e for e in ranked 
+                    if any(_canonical_muscle(str(m)) in target_muscles for m in (e.get("primaryMuscles") or e.get("targetMuscles") or e.get("bodyParts") or []))
+                ]
+                if muscle_ranked:
+                    ranked = muscle_ranked
+
+            if not ranked:
+                ranked = [exercise for exercise in pool if exercise.get("instruction")]
+
+            ranked.sort(
                 key=lambda exercise: (
-                    -_exercise_score(exercise, set(), prefer_cardio=True),
+                    -_exercise_score(exercise, target_muscles, prefer_cardio=True),
                     -(3 if exercise.get("gif_url") else 0),
                     -feedback_bonus(str(exercise.get("name", ""))),
                     -len(exercise.get("name", "")),
                     str(exercise.get("name", "")),
                 ),
             )
-            ranked = [exercise for exercise in ranked if exercise.get("instruction")] or ranked
             low_impact = [e for e in ranked if any(token in str(e.get("name", "")).lower() for token in ("bike", "row", "elliptical", "stair", "walk"))]
-            ordered = (low_impact[:2] + ranked[:1])[:3] if bmi_category == "Obesity" and low_impact else ranked[:3]
+            ordered = (low_impact[:4] + ranked[:2])[:6] if bmi_category == "Obesity" and low_impact else ranked[:6]
             picks = [exercise for exercise in ordered if str(exercise.get("exerciseId") or exercise.get("name") or "").strip().lower() not in recent_keys]
-            if len(picks) < 3:
+            if len(picks) < 6:
                 for exercise in ranked:
                     key = str(exercise.get("exerciseId") or exercise.get("name") or "").strip().lower()
                     if key in recent_keys or exercise in picks:
                         continue
                     picks.append(exercise)
-                    if len(picks) >= 3:
+                    if len(picks) >= 6:
                         break
-            if len(picks) < 3:
+            if len(picks) < 6:
                 for exercise in ordered:
                     if exercise not in picks:
                         picks.append(exercise)
-                    if len(picks) >= 3:
+                    if len(picks) >= 6:
                         break
             return picks
 
@@ -1226,20 +1329,33 @@ class FitPaxAssistant:
             "bench": {"chest", "tricep", "shoulder"},
         }
 
-        desired = set()
-        if bmi_category == "Underweight":
-            desired.update({"glute", "quad", "hamstring", "chest", "lat", "bicep", "tricep", "abdominal"})
-        else:
-            desired.update({"chest", "lat", "bicep", "tricep", "quad", "glute", "hamstring", "abdominal"})
+        desired = profile.get("target_muscles") or set()
+        if not desired:
+            if bmi_category == "Underweight":
+                desired.update({"glute", "quad", "hamstring", "chest", "lat", "bicep", "tricep", "abdominal"})
+            else:
+                desired.update({"chest", "lat", "bicep", "tricep", "quad", "glute", "hamstring", "abdominal"})
 
-        ranked = sorted(
-            pool,
+        ranked = [exercise for exercise in pool if exercise.get("gif_url") and exercise.get("instruction")]
+        if desired:
+            # If specific muscles requested, strictly prefer them
+            muscle_ranked = [
+                e for e in ranked 
+                if any(_canonical_muscle(str(m)) in desired for m in (e.get("primaryMuscles") or e.get("targetMuscles") or e.get("bodyParts") or []))
+            ]
+            if muscle_ranked:
+                ranked = muscle_ranked
+
+        if not ranked:
+            ranked = [exercise for exercise in pool if exercise.get("instruction")]
+
+        ranked.sort(
             key=lambda exercise: (
                 -(
                     _exercise_score(exercise, desired)
                     + sum(2 for token, muscles in muscle_keywords.items() if token in str(exercise.get("name", "")).lower() and muscles)
                     + feedback_bonus(str(exercise.get("name", "")))
-                    + (3 if exercise.get("gif_url") else 0)
+                    + (5 if exercise.get("gif_url") else 0)
                     + (2 if exercise.get("primaryMuscles") else 0)
                     + (1 if exercise.get("secondaryMuscles") else 0)
                 ),
@@ -1248,28 +1364,27 @@ class FitPaxAssistant:
                 str(exercise.get("name", "")),
             ),
         )
-        ranked = [exercise for exercise in ranked if exercise.get("instruction")] or ranked
         picks = [
             exercise
             for exercise in ranked
             if _exercise_score(exercise, desired) > 0
             and str(exercise.get("exerciseId") or exercise.get("name") or "").strip().lower() not in recent_keys
-        ][:3]
-        if len(picks) < 3:
+        ][:6]
+        if len(picks) < 6:
             for exercise in ranked:
                 key = str(exercise.get("exerciseId") or exercise.get("name") or "").strip().lower()
                 if key in recent_keys or exercise in picks:
                     continue
                 picks.append(exercise)
-                if len(picks) >= 3:
+                if len(picks) >= 6:
                     break
-        if len(picks) < 3:
+        if len(picks) < 6:
             for exercise in ranked:
                 if exercise not in picks:
                     picks.append(exercise)
-                if len(picks) >= 3:
+                if len(picks) >= 6:
                     break
-        return picks[:3]
+        return picks[:6]
 
     def recommend(self, payload: dict) -> dict:
         session_id = payload.get("session_id", "default")
@@ -1367,23 +1482,35 @@ class FitPaxAssistant:
             recommendation = None
         exercises = self._pick_exercises(profile)
 
-        weekly_guidance = WEEKLY_GUIDANCE.get(profile["goal"], WEEKLY_GUIDANCE["fat_burn"])
-        meal_guidance = MEAL_GUIDANCE.get(profile["goal"], MEAL_GUIDANCE["fat_burn"])
+        weekly_options = WEEKLY_GUIDANCE.get(profile["goal"], WEEKLY_GUIDANCE["fat_burn"])
+        meal_options = MEAL_GUIDANCE.get(profile["goal"], MEAL_GUIDANCE["fat_burn"])
+        weekly_guidance = random.choice(weekly_options)
+        meal_guidance = random.choice(meal_options)
+
         if profile.get("diet_type") == "vegan":
-            meal_guidance = "Use vegan protein sources like tofu, tempeh, beans, lentils, soy milk, chickpeas, oats, nuts, seeds, and fortified foods."
+            meal_guidance = "Your meal plan focuses on premium vegan protein sources like tofu, tempeh, lentils, chickpeas, and seeds to ensure you hit your targets while staying plant-based."
         elif profile.get("diet_type") == "vegetarian":
-            meal_guidance = "Use vegetarian protein sources like eggs or dairy if you eat them, plus beans, lentils, tofu, tempeh, nuts, and seeds."
+            meal_guidance = "Your vegetarian plan incorporates high-protein dairy, eggs, and legumes, ensuring a balanced intake of all essential amino acids for your goal."
+        
         if profile["bmi_category"] == "Underweight":
-            meal_guidance = "You likely need more calories and protein than a fat-loss plan. Keep meals frequent and nutrient-dense."
+            meal_guidance = "Since you are in the underweight category, this plan prioritizes calorie-dense, nutrient-rich foods and frequent snacking to help you reach a healthier weight safely."
         elif profile["bmi_category"] == "Obesity":
-            meal_guidance = "Use a gentle calorie deficit with nutrient-dense foods and portion control, while keeping protein high."
+            meal_guidance = "Focus on high-volume, low-calorie foods (like leafy greens) to help you feel full while maintaining the necessary deficit for steady, healthy fat loss."
 
         nutrition_examples = self._nutrition_picks(profile)
         assessment_text = self._generate_assessment(profile)
+        
+        prefixes = [
+            f"Based on your {profile['bmi_category']} profile and {profile['goal'].replace('_', ' ')} goal, I've designed this personalized strategy for you.",
+            f"Here is a comprehensive approach tailored to your objective of {profile['goal'].replace('_', ' ')}.",
+            f"I've analyzed your stats and goals. Here is your optimized {profile['goal'].replace('_', ' ')} plan.",
+            f"To help you succeed with {profile['goal'].replace('_', ' ')}, I recommend the following routine and nutrition focus."
+        ]
+        
         reply = (
-            f"Here is your plan for a {profile['goal'].replace('_', ' ')} goal. "
-            f"{weekly_guidance} "
-            f"{meal_guidance}"
+            f"{random.choice(prefixes)} "
+            f"\n\n**Training Focus:** {weekly_guidance} "
+            f"\n\n**Nutrition Strategy:** {meal_guidance}"
         )
         if knowledge_reply:
             reply = f"{reply} {knowledge_reply}"
@@ -1481,26 +1608,38 @@ class FitPaxAssistant:
 
         if any(keyword in text for keyword in ("how many days", "how often", "schedule", "week", "weekly")):
             goal = profile.get("goal") or _extract_profile_from_text(text).get("goal") or "fat_burn"
-            reply = knowledge_reply or WEEKLY_GUIDANCE.get(goal, WEEKLY_GUIDANCE["fat_burn"])
+            weekly_options = WEEKLY_GUIDANCE.get(goal, WEEKLY_GUIDANCE["fat_burn"])
+            base_reply = random.choice(weekly_options)
+            reply = knowledge_reply or base_reply
             if not knowledge_reply:
-                reply = WEEKLY_GUIDANCE.get(goal, WEEKLY_GUIDANCE["fat_burn"])
+                reply = base_reply
             elif goal == "muscle_gain":
-                reply += " For muscle gain, keep most days focused on strength work and progressive overload."
+                reply += " To maximize your gains, focus on progressive resistance and high-quality recovery."
             elif goal == "fat_burn":
-                reply += " For fat loss, mix steady cardio with 2 strength days to keep muscle."
+                reply += " To accelerate fat loss, combine your cardio with 2-3 days of metabolic conditioning."
             return {"ok": True, "kind": "answer", "reply": reply, "exercise_examples": [], "nutrition_examples": self._nutrition_picks(profile), "suggestions": self._suggestions(profile, "answer"), "parsed": parsed, "knowledge_examples": knowledge_matches}
 
         if parsed.get("intent") == "workout_advice" or any(keyword in text for keyword in ("exercise", "workout", "routine", "training", "gym", "show me exercises", "show exercise images", "excersize", "exercis")):
             goal = profile.get("goal") or _extract_profile_from_text(text).get("goal")
             bmi = profile.get("bmi_category") or _extract_profile_from_text(text).get("bmi_category")
-            exercise_profile = {"goal": goal or "muscle_gain", "bmi_category": bmi}
+            target_muscles = _extract_muscles(text)
+            exercise_profile = {"goal": goal or "muscle_gain", "bmi_category": bmi, "target_muscles": target_muscles}
             exercises = self._pick_exercises(exercise_profile)
+            
+            workout_prefixes = [
+                "Here are some highly effective exercise recommendations for your current profile.",
+                "To help you reach your goals, I've selected these exercises based on your body type and objective.",
+                "Check out these exercise examples that align perfectly with your fitness strategy.",
+                "Based on your focus, these movements will provide the best results."
+            ]
+            
             if goal == "fat_burn" or bmi in {"Overweight", "Obesity"}:
-                reply = "Here are exercise ideas that fit a fat-loss focus. I mixed in cardio and strength work."
+                reply = f"{random.choice(workout_prefixes)} I've included a mix of calorie-burning cardio and muscle-preserving strength moves."
             elif bmi == "Underweight" or goal == "muscle_gain":
-                reply = "Here are exercise ideas that fit a muscle-gain or underweight profile."
+                reply = f"{random.choice(workout_prefixes)} These exercises focus on compound movements to trigger maximum muscle growth."
             else:
-                reply = "Here are exercise ideas based on your current goal."
+                reply = f"{random.choice(workout_prefixes)} These options provide a balanced approach to general fitness."
+                
             if knowledge_reply:
                 reply = knowledge_reply
             return {
@@ -1518,59 +1657,84 @@ class FitPaxAssistant:
             goal = profile.get("goal") or _extract_profile_from_text(text).get("goal")
             bmi = profile.get("bmi_category") or _extract_profile_from_text(text).get("bmi_category")
             diet_type = profile.get("diet_type") or _extract_profile_from_text(text).get("diet_type")
+            
+            nutrition_prefixes = [
+                "Nutrition is 70% of the battle. Here is what I recommend for you:",
+                "To fuel your progress effectively, consider this dietary strategy:",
+                "Based on your profile, here are some key nutrition insights to help you reach your goals:",
+                "Eating correctly is vital. Here is a breakdown of what your meals should look like:"
+            ]
+            
             if diet_type == "vegan":
+                reply = f"{random.choice(nutrition_prefixes)} Focus on premium plant-based protein sources like tofu, tempeh, lentils, and chickpeas."
                 if goal == "muscle_gain":
-                    reply = "For a vegan muscle-gain diet, focus on tofu, tempeh, beans, lentils, chickpeas, soy milk, oats, nuts, seeds, and enough calories."
+                    reply += " Ensure you're in a slight calorie surplus to support new muscle tissue growth."
                 elif bmi == "Underweight":
-                    reply = "For a vegan underweight diet, focus on more calories, regular meals, tofu, tempeh, beans, lentils, chickpeas, soy milk, oats, nuts, seeds, and fortified foods."
-                else:
-                    reply = "For a vegan diet, focus on tofu, tempeh, beans, lentils, chickpeas, soy milk, oats, nuts, seeds, and fortified foods."
-                if knowledge_reply:
-                    reply = knowledge_reply
+                    reply += " Prioritize calorie-dense plant foods like nuts, seeds, and avocados to help gain healthy weight."
+            elif diet_type == "vegetarian":
+                reply = f"{random.choice(nutrition_prefixes)} Incorporate high-quality protein from eggs, Greek yogurt, and cottage cheese alongside legumes."
                 if goal == "muscle_gain":
-                    reply += " For muscle gain, build each meal around a solid protein source and enough total calories."
-                return {"ok": True, "kind": "answer", "reply": reply, "exercise_examples": [], "nutrition_examples": self._nutrition_picks({**profile, "diet_type": "vegan", "goal": goal}), "suggestions": self._suggestions(profile, "answer"), "parsed": parsed, "knowledge_examples": knowledge_matches}
-            if diet_type == "vegetarian":
-                if goal == "muscle_gain":
-                    reply = "For a vegetarian muscle-gain diet, use eggs or dairy if you eat them, plus beans, lentils, tofu, tempeh, nuts, seeds, and enough calories."
-                elif bmi == "Underweight":
-                    reply = "For a vegetarian underweight diet, eat frequently and use eggs or dairy if you eat them, plus beans, lentils, tofu, tempeh, nuts, and seeds."
-                else:
-                    reply = "For a vegetarian diet, use eggs or dairy if you eat them, plus beans, lentils, tofu, tempeh, nuts, and seeds."
-                if knowledge_reply:
-                    reply = knowledge_reply
-                if goal == "muscle_gain":
-                    reply += " For muscle gain, aim for protein at every meal and enough calories to recover."
-                return {"ok": True, "kind": "answer", "reply": reply, "exercise_examples": [], "nutrition_examples": self._nutrition_picks({**profile, "diet_type": "vegetarian", "goal": goal}), "suggestions": self._suggestions(profile, "answer"), "parsed": parsed, "knowledge_examples": knowledge_matches}
-            if bmi == "Underweight":
-                reply = "For underweight users, focus on more calories, enough protein, and regular meals."
+                    reply += " Aim for a protein-rich snack after every training session for optimal recovery."
+            elif bmi == "Underweight":
+                reply = f"{random.choice(nutrition_prefixes)} You should focus on frequent, nutrient-dense meals and consistent calorie intake to reach a healthy weight."
             elif bmi == "Obesity" or goal == "fat_burn":
-                reply = "For fat loss, keep meals nutrient-dense, watch portions, and keep protein high."
+                reply = f"{random.choice(nutrition_prefixes)} Maintain a sustainable calorie deficit while keeping protein high to preserve muscle mass during fat loss."
             else:
-                reply = "A balanced diet with protein, vegetables, fruit, and whole grains is a strong default."
+                reply = f"{random.choice(nutrition_prefixes)} A balanced mix of lean protein, complex carbohydrates, and healthy fats is your best path forward."
+            
+            # Enhanced: Fuzzy search for specific foods in the query
+            food_matches = []
+            words = text.split()
+            potential_foods = [w for w in words if len(w) > 3 and w not in STOPWORDS]
+            for food_item in potential_foods:
+                for n in self.nutrition:
+                    if food_item in n["name"].lower():
+                        food_matches.append(n)
+                        if len(food_matches) >= 3: break
+                if len(food_matches) >= 3: break
+            
+            if food_matches:
+                match_text = "\n\n**Nutritional Insights (Search Results):**\n"
+                for m in food_matches:
+                    match_text += f"- **{m['name']}**: {m.get('calories', 'N/A')} kcal, {m.get('protein', '0')}g Protein, {m.get('carbohydrate', '0')}g Carbs, {m.get('fat', '0')}g Fat\n"
+                reply += match_text
+
             if knowledge_reply:
                 reply = knowledge_reply
-            if goal == "muscle_gain":
-                reply += " For muscle gain, prioritize protein, carbs, and consistent meal timing."
             return {"ok": True, "kind": "answer", "reply": reply, "exercise_examples": [], "nutrition_examples": self._nutrition_picks(profile), "suggestions": self._suggestions(profile, "answer"), "parsed": parsed, "knowledge_examples": knowledge_matches}
 
         if any(keyword in text for keyword in ("underweight", "skinny", "thin", "gain muscle", "muscle", "build muscle")):
             inferred = _extract_profile_from_text(text)
             goal = inferred.get("goal") or profile.get("goal")
             bmi = inferred.get("bmi_category") or profile.get("bmi_category")
+            
+            gain_prefixes = [
+                "Building muscle requires a combination of heavy lifting and smart eating.",
+                "To transform your physique and add mass, focus on these core principles:",
+                "If your goal is to get stronger and bigger, consistency in these areas is key:",
+                "Adding lean muscle is a marathon, not a sprint. Here is your strategy:"
+            ]
+            
             if bmi == "Underweight" and goal == "muscle_gain":
-                reply = "If you are skinny and want muscle, lift 2 to 4 times a week, eat more calories, and get enough protein."
+                reply = f"{random.choice(gain_prefixes)} Since you're starting lean, focus on high-volume lifting and a significant calorie increase."
             elif bmi == "Underweight":
-                reply = "If you are underweight, prioritize calorie-dense meals, enough protein, and progressive strength training."
+                reply = f"{random.choice(gain_prefixes)} Prioritize compound exercises and eat more than you think you need to reach a healthy weight."
             else:
-                reply = "Progressive overload, enough protein, and consistent training are key for muscle gain."
+                reply = f"{random.choice(gain_prefixes)} Stick to progressive overload and ensure your protein intake is at least 1.8g per kg of body weight."
+                
             exercises = self._pick_exercises({"goal": "muscle_gain", "bmi_category": bmi})
             if knowledge_reply:
                 reply = knowledge_reply
             return {"ok": True, "kind": "answer", "reply": reply, "exercise_examples": exercises, "nutrition_examples": self._nutrition_picks({"goal": "muscle_gain", "bmi_category": bmi}), "suggestions": self._suggestions({"goal": "muscle_gain", "bmi_category": bmi}, "answer"), "parsed": parsed, "knowledge_examples": knowledge_matches}
 
         if any(keyword in text for keyword in ("hiit", "cardio", "running", "bike", "row", "elliptical", "fat burn", "lose weight")):
-            reply = "For fat loss, combine regular cardio with strength training so you keep muscle while burning calories."
+            burn_prefixes = [
+                "To burn fat effectively while keeping muscle, focus on this approach:",
+                "Weight loss is about a consistent deficit. Here is how to achieve it:",
+                "For a leaner physique, I recommend this combination of cardio and strength:",
+                "To maximize your caloric burn, follow these guidelines:"
+            ]
+            reply = f"{random.choice(burn_prefixes)} Mix steady-state cardio with high-intensity intervals and at least 2 days of resistance training."
             exercises = self._pick_exercises({"goal": "fat_burn", "bmi_category": profile.get("bmi_category")})
             if knowledge_reply:
                 reply = knowledge_reply
@@ -1579,7 +1743,7 @@ class FitPaxAssistant:
         return {
             "ok": True,
             "kind": "answer",
-            "reply": knowledge_reply or "I can help with workout plans, muscle gain, fat loss, meal guidance, and exercise ideas. Try telling me your goal or body type.",
+            "reply": knowledge_reply or "I'm your FitPax AI assistant. I can provide detailed workout routines, meal plans, and fitness advice tailored to your body type and goals. What would you like to focus on today?",
             "exercise_examples": [],
             "nutrition_examples": self._nutrition_picks(profile),
             "suggestions": self._suggestions(profile, "answer"),
@@ -1695,6 +1859,46 @@ class FitPaxAssistant:
         parsed = _extract_intent(f"{message} {description}")
 
         text = _normalize_text(message)
+        
+        # Check for small talk / greetings first (BEFORE anything else)
+        for category, phrases in GREETING_ALIASES.items():
+            if any(_contains_phrase(text, phrase) for phrase in phrases):
+                reply = random.choice(SMALL_TALK_RESPONSES.get(category, SMALL_TALK_RESPONSES["hi"]))
+                interactions = memory.setdefault("interactions", [])
+                interactions.append({"type": "greeting", "message": message, "profile": profile, "reply": reply})
+                memory["interactions"] = interactions[-100:]
+                self._save_memory(session_id, memory)
+                return {
+                    "ok": True,
+                    "kind": "answer",
+                    "reply": reply,
+                    "profile": profile,
+                    "exercise_examples": [],
+                    "nutrition_examples": [],
+                    "suggestions": self._suggestions(profile, "answer"),
+                    "parsed": parsed,
+                }
+
+        # Also check our loaded knowledge base for persona matches
+        for k in self.knowledge:
+            if k.get("topic") == "persona" and _contains_phrase(text, k.get("prompt", "")):
+                responses = k.get("all_responses") or [k.get("response")]
+                reply = random.choice(responses)
+                interactions = memory.setdefault("interactions", [])
+                interactions.append({"type": "persona", "message": message, "profile": profile, "reply": reply})
+                memory["interactions"] = interactions[-100:]
+                self._save_memory(session_id, memory)
+                return {
+                    "ok": True,
+                    "kind": "answer",
+                    "reply": reply,
+                    "profile": profile,
+                    "exercise_examples": [],
+                    "nutrition_examples": [],
+                    "suggestions": self._suggestions(profile, "answer"),
+                    "parsed": parsed,
+                }
+
         memory_hit = self._memory_match(message, memory)
         repeat_intent = any(keyword in text for keyword in ("repeat", "same", "previous", "that plan", "that answer", "as before", "last one"))
         if memory_hit and memory_hit.get("reply") and repeat_intent:
@@ -1759,10 +1963,16 @@ class FitPaxAssistant:
             return self.recommend({**payload, "gender": profile.get("gender"), "goal": profile.get("goal"), "bmi_category": profile.get("bmi_category"), "diet_type": profile.get("diet_type")})
 
         if want_plan and not profile.get("goal"):
+            clarify_options = [
+                "To give you the best plan, could you tell me your current goal and body type? For example: 'I want to lose fat and I'm currently overweight.'",
+                "Tell me a bit more about your fitness goal and body type so I can tailor the routine for you. (e.g., 'I am skinny and want to build muscle.')",
+                "I'm ready to help! Just let me know what you're aiming for and your current build, like: 'I want to build muscle and I have a normal weight.'",
+                "To get started, I need to know your fitness objective and current body category. Try something like: 'I want to burn fat and I'm in the obesity category.'"
+            ]
             return {
                 "ok": True,
                 "kind": "clarify",
-                "reply": "Tell me your goal and body type in one sentence, for example: 'I am skinny and want to build muscles.'",
+                "reply": random.choice(clarify_options),
                 "profile": profile,
                 "exercise_examples": [],
             }
@@ -1822,6 +2032,7 @@ class FitPaxAssistant:
                 {"value": "", "label": "Optional"},
                 {"value": "vegan", "label": "Vegan"},
                 {"value": "vegetarian", "label": "Vegetarian"},
+                {"value": "non-veg", "label": "Non-Veg"},
             ],
         }
 

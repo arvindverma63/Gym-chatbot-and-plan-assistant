@@ -7,6 +7,8 @@ from typing import Any, Dict, List, Optional
 import uvicorn
 from fastapi import FastAPI, HTTPException, Path as APIPath, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from assistant_core import FitPaxAssistant
@@ -29,6 +31,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Static Files
+STATIC_DIR = BASE_DIR / "static"
+if STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+@app.get("/", tags=["System"])
+async def read_index():
+    index_path = STATIC_DIR / "index.html"
+    if index_path.exists():
+        return FileResponse(index_path)
+    return {"message": "FitPax Pro AI API is running. Static frontend not found."}
 
 # --- Models ---
 
@@ -77,42 +91,42 @@ class Exercise(BaseModel):
     primaryMuscles: List[str]
     secondaryMuscles: List[str]
     bodyParts: List[str]
-    category: Optional[str]
-    gif_url: Optional[str]
-    exerciseId: Optional[str]
+    category: Optional[str] = None
+    gif_url: Optional[str] = None
+    exerciseId: Optional[str] = None
 
 class NutritionRecord(BaseModel):
     name: str
-    calories: Optional[float]
-    protein: Optional[float]
-    fiber: Optional[float]
-    carbohydrate: Optional[float]
-    fat: Optional[float]
+    calories: Optional[float] = None
+    protein: Optional[float] = None
+    fiber: Optional[float] = None
+    carbohydrate: Optional[float] = None
+    fat: Optional[float] = None
 
 class ChatResponse(BaseModel):
     ok: bool
     kind: str = Field(..., description="Type of response: answer, plan, memory, clarify")
     reply: str
-    profile: Dict[str, Any]
-    exercise_examples: List[Exercise]
-    nutrition_examples: List[NutritionRecord]
-    suggestions: List[str]
-    parsed: Dict[str, Any]
+    profile: Dict[str, Any] = Field(default_factory=dict)
+    exercise_examples: List[Exercise] = Field(default_factory=list)
+    nutrition_examples: List[NutritionRecord] = Field(default_factory=list)
+    suggestions: List[str] = Field(default_factory=list)
+    parsed: Dict[str, Any] = Field(default_factory=dict)
     knowledge_examples: Optional[List[Dict[str, Any]]] = None
 
 class RecommendResponse(BaseModel):
     ok: bool
     kind: str
     reply: str
-    profile: Dict[str, Any]
-    weekly_guidance: str
-    meal_guidance: str
-    exercise_examples: List[Exercise]
-    nutrition_examples: List[NutritionRecord]
-    suggestions: List[str]
-    recommendation: Optional[Dict[str, Any]]
-    assessment: str
-    parsed: Dict[str, Any]
+    profile: Dict[str, Any] = Field(default_factory=dict)
+    weekly_guidance: Optional[str] = None
+    meal_guidance: Optional[str] = None
+    exercise_examples: List[Exercise] = Field(default_factory=list)
+    nutrition_examples: List[NutritionRecord] = Field(default_factory=list)
+    suggestions: List[str] = Field(default_factory=list)
+    recommendation: Optional[Dict[str, Any]] = None
+    assessment: Optional[str] = None
+    parsed: Dict[str, Any] = Field(default_factory=dict)
 
 class GenericResponse(BaseModel):
     ok: bool
@@ -200,7 +214,7 @@ async def search_exercises(
     Searches the internal knowledge base for exercises matching the query or muscle group.
     """
     pool = assistant.visual_exercises + assistant.exercises
-    results = pool
+    results = [e for e in pool if e.get("gif_url")] # Only show exercises with images
     
     if q:
         q = q.lower()
@@ -233,6 +247,16 @@ async def feedback(request: FeedbackRequest):
     if not result.get("ok", False):
         raise HTTPException(status_code=400, detail=result.get("error", "Feedback failed"))
     return result
+
+@app.get("/exercise-gif/{exercise_id}", tags=["Knowledge Search"], summary="Get Exercise GIF")
+async def get_exercise_gif(exercise_id: str = APIPath(..., description="The unique ID of the exercise")):
+    """
+    Serves the animated GIF or image for a specific exercise.
+    """
+    gif_path = assistant.resolve_exercise_gif(exercise_id)
+    if not gif_path or not gif_path.exists():
+        raise HTTPException(status_code=404, detail="Exercise GIF not found")
+    return FileResponse(gif_path)
 
 @app.post("/retrain", tags=["Maintenance"], response_model=Dict[str, Any], summary="Refresh Knowledge Base")
 async def retrain():

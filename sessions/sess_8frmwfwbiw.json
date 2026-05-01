@@ -1,0 +1,116 @@
+{
+  "profile": {},
+  "interactions": [
+    {
+      "type": "question",
+      "message": "How many days should I train each week?",
+      "profile": {
+        "gender": "Male",
+        "goal": "fat_burn",
+        "bmi_category": "Underweight",
+        "diet_type": "vegan"
+      },
+      "reply": "Here is a schedule answer grounded in the fitness knowledge base: Aim for at least 150 minutes of walking per week, but don't worry if you need to start with less. the important thing is to keep moving and gradually increase your activity level. For fat loss, mix steady cardio with 2 strength days to keep muscle.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), raw, mature seeds",
+          "calories": 378.0,
+          "protein": 20.47,
+          "fiber": 12.2
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), with salt, boiled, cooked, mature seeds",
+          "calories": 164.0,
+          "protein": 8.86,
+          "fiber": 7.6
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), without salt, boiled, cooked, mature seeds",
+          "calories": 164.0,
+          "protein": 8.86,
+          "fiber": 7.6
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), drained solids, canned, mature seeds",
+          "calories": 139.0,
+          "protein": 7.05,
+          "fiber": 6.4
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "Show exercise images",
+      "profile": {
+        "gender": "Male",
+        "goal": "fat_burn",
+        "bmi_category": "Underweight",
+        "diet_type": "vegan"
+      },
+      "reply": "Here is a more grounded fitness answer based on the exercise knowledge base: Boxing is primarily a cardio exercise, but it also strengthens the muscles in the core and lower body.",
+      "exercise_examples": [
+        {
+          "name": "Kneeling Cable Crunch With Alternating Oblique Twists",
+          "muscles": "abdominals",
+          "instruction": "Connect a rope attachment to a high pulley cable and position a mat on the floor in front of it.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists/0.jpg",
+          "exerciseId": "Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists"
+        },
+        {
+          "name": "assisted hanging knee raise with throw down",
+          "muscles": "abs",
+          "instruction": "Step:1 Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+          "primaryMuscles": [
+            "abs"
+          ],
+          "secondaryMuscles": [
+            "hip flexors",
+            "lower back"
+          ],
+          "bodyParts": [
+            "waist"
+          ],
+          "category": "visual",
+          "exerciseId": "8K0w2yA",
+          "gif_url": "/exercise-gif/8K0w2yA",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\8K0w2yA.gif"
+        },
+        {
+          "name": "Bent Over Two-Dumbbell Row With Palms In",
+          "muscles": "middle back",
+          "instruction": "With a dumbbell in each hand (palms facing each other), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The weights should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
+          "primaryMuscles": [
+            "middle back"
+          ],
+          "secondaryMuscles": [
+            "biceps",
+            "lats"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row_With_Palms_In/0.jpg",
+          "exerciseId": "Bent_Over_Two-Dumbbell_Row_With_Palms_In"
+        }
+      ],
+      "nutrition_examples": []
+    },
+    {
+      "type": "greeting",
+      "message": "hi",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Hey! I'm FitPax AI. Let's get to work on your fitness objective!"
+    }
+  ]
+}
