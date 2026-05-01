@@ -1,3 +1,17 @@
+// Theme Management
+const themeToggle = document.getElementById("themeToggle");
+const currentTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+if (currentTheme === "dark") {
+  document.documentElement.setAttribute("data-theme", "dark");
+}
+
+themeToggle?.addEventListener("click", () => {
+  let theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+});
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")

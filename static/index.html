@@ -1,77 +1,104 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FitPax AI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <main class="page">
-      <section class="compact-card">
-        <div class="header-row">
-          <div>
-            <p class="eyebrow">FitPax AI</p>
-            <h1>Gym chatbot and plan assistant</h1>
-          </div>
-          <div class="status-pill"><span class="dot"></span> Auto-learning</div>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FitPax AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <main class="page">
+    <section class="compact-card">
+      <div class="header-row">
+        <div>
+          <p class="eyebrow">FitPax AI</p>
+          <h1>Gym chatbot and plan assistant</h1>
         </div>
-
-        <p class="subtitle">
-          Ask about workouts, meals, muscle gain, fat loss, or fill the quick profile to get a full plan.
-        </p>
-
-        <form id="profileForm" class="profile-grid">
-          <label><span>Gender</span><select id="gender"><option value="">Loading...</option></select></label>
-          <label><span>Goal</span><select id="goal"><option value="">Loading...</option></select></label>
-          <label><span>Diet type (Food)</span><select id="dietType"><option value="">Loading...</option></select></label>
-          <label><span>Medical History</span><input type="text" id="medicalHistory" placeholder="e.g. Asthma, none" /></label>
-          
-          <label><span>Weight (kg)</span><input type="number" step="0.1" id="weight" placeholder="e.g. 70" /></label>
-          <label><span>Height (cm)</span><input type="number" step="1" id="height" placeholder="e.g. 175" /></label>
-          <label><span>Chest (cm)</span><input type="number" step="0.1" id="chest" placeholder="e.g. 100" /></label>
-          <label><span>Waist (cm)</span><input type="number" step="0.1" id="waist" placeholder="e.g. 80" /></label>
-          <label><span>Hips (cm)</span><input type="number" step="0.1" id="hips" placeholder="e.g. 95" /></label>
-          <label><span>Biceps (cm)</span><input type="number" step="0.1" id="biceps" placeholder="e.g. 35" /></label>
-          <label><span>Body Fat (%)</span><input type="number" step="0.1" id="bodyFat" placeholder="e.g. 15" /></label>
-          
-          <!-- Hidden BMI dropdown since we will auto-calculate it, but kept for compatibility -->
-          <select id="bmiCategory" style="display:none;"><option value="">Optional</option></select>
-          
-          <label class="wide">
-            <span>Short description</span>
-            <textarea id="description" rows="2" placeholder="Example: i am very skinny and i want build mussles"></textarea>
-          </label>
-        </form>
-
-        <div class="chip-row">
-          <button class="chip" data-fill="How many days should I train each week?">Weekly training</button>
-          <button class="chip" data-fill="I am skinny and want to build muscles.">Gain muscle</button>
-          <button class="chip" data-fill="How much cardio should I do to lose fat?">Lose fat</button>
-          <button class="chip" data-fill="What should I eat for muscle gain?">Meal advice</button>
+        <div class="status-pill">
+          <span class="dot"></span> Auto-learning
+          <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode"
+            style="margin-left: 8px; border: 1px solid var(--surface-border); background: var(--bg-sidebar); cursor: pointer; font-size: 1.1rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">🌓</button>
         </div>
+      </div>
 
-        <div id="messages" class="messages" aria-live="polite"></div>
+      <p class="subtitle">
+        Your personal AI trainer for workouts, nutrition, and body transformation.
+      </p>
 
-        <form id="chatForm" class="chat-form">
-          <input
-            id="messageInput"
-            type="text"
-            placeholder="Ask a question or describe your goal..."
-            autocomplete="off"
-          />
-          <button type="submit" class="secondary">Ask</button>
-          <button type="button" id="planBtn">Get plan</button>
-        </form>
-      </section>
-    </main>
+      <form id="profileForm" class="profile-grid">
+        <div class="form-section-title wide">Personal Information</div>
+        <label><span>Gender</span><select id="gender">
+            <option value="">Loading...</option>
+          </select></label>
+        <label><span>Goal</span><select id="goal">
+            <option value="">Loading...</option>
+          </select></label>
+        <label><span>Diet type</span><select id="dietType">
+            <option value="">Loading...</option>
+          </select></label>
+        <label><span>Medical History</span><input type="text" id="medicalHistory"
+            placeholder="e.g. None" /></label>
 
-    <script src="/app.js"></script>
-  </body>
+        <div class="form-section-title wide">Measurements</div>
+        <label><span>Weight (kg)</span><input type="number" step="0.1" id="weight" placeholder="70" /></label>
+        <label><span>Height (cm)</span><input type="number" step="1" id="height" placeholder="175" /></label>
+        <label><span>Chest (cm)</span><input type="number" step="0.1" id="chest" placeholder="100" /></label>
+        <label><span>Waist (cm)</span><input type="number" step="0.1" id="waist" placeholder="80" /></label>
+        <label><span>Hips (cm)</span><input type="number" step="0.1" id="hips" placeholder="95" /></label>
+        <label><span>Biceps (cm)</span><input type="number" step="0.1" id="biceps" placeholder="35" /></label>
+        <label class="wide"><span>Body Fat (%)</span><input type="number" step="0.1" id="bodyFat" placeholder="15" /></label>
+
+        <!-- Hidden BMI dropdown since we will auto-calculate it -->
+        <select id="bmiCategory" style="display:none;">
+          <option value="">Optional</option>
+        </select>
+
+        <div class="form-section-title wide">Bio & Notes</div>
+        <label class="wide">
+          <span>Short description</span>
+          <textarea id="description" rows="3"
+            placeholder="Tell us about your fitness level and what you want to achieve..."></textarea>
+        </label>
+      </form>
+
+      <div class="chip-row">
+        <button class="chip" data-fill="How many days should I train each week?">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Weekly training
+        </button>
+        <button class="chip" data-fill="I am skinny and want to build muscles.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"></path><path d="M22 21l-4.3-4.3"></path><circle cx="15" cy="15" r="3"></circle></svg>
+          Gain muscle
+        </button>
+        <button class="chip" data-fill="How much cardio should I do to lose fat?">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5 5 0 1 1-7.07 7.07l-3.54-3.54a5 5 0 0 1 7.07-7.07l3.54 3.54Z"></path><path d="m12 13-4 4"></path><path d="m12 18-4-4"></path><circle cx="7" cy="17" r="3"></circle></svg>
+          Lose fat
+        </button>
+      </div>
+
+      <div id="messages" class="messages" aria-live="polite"></div>
+
+      <form id="chatForm" class="chat-form">
+        <input id="messageInput" type="text" placeholder="Type your message..." autocomplete="off" />
+        <button type="submit" class="secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Send
+        </button>
+        <button type="button" id="planBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Generate Plan
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+  <script src="/layout.js"></script>
+</body>
+
 </html>

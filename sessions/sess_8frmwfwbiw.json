@@ -111,6 +111,645 @@
         "diet_type": null
       },
       "reply": "Hey! I'm FitPax AI. Let's get to work on your fitness objective!"
+    },
+    {
+      "type": "question",
+      "message": "How much cardio should I do to lose fat?",
+      "profile": {
+        "gender": null,
+        "goal": "fat_burn",
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded fitness answer based on the exercise knowledge base: You cannot target where you lose fat. this is commonly called spot reduction and it is a myth. your genes are responsible for where your body stores fat and where it comes from when losing weight in a first on, last off manner.",
+      "exercise_examples": [
+        {
+          "name": "Kneeling Cable Crunch With Alternating Oblique Twists",
+          "muscles": "abdominals",
+          "instruction": "Connect a rope attachment to a high pulley cable and position a mat on the floor in front of it.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists/0.jpg",
+          "exerciseId": "Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists"
+        },
+        {
+          "name": "assisted hanging knee raise with throw down",
+          "muscles": "abs",
+          "instruction": "Step:1 Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+          "primaryMuscles": [
+            "abs"
+          ],
+          "secondaryMuscles": [
+            "hip flexors",
+            "lower back"
+          ],
+          "bodyParts": [
+            "waist"
+          ],
+          "category": "visual",
+          "exerciseId": "8K0w2yA",
+          "gif_url": "/exercise-gif/8K0w2yA",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\8K0w2yA.gif"
+        },
+        {
+          "name": "assisted hanging knee raise with throw down",
+          "muscles": "waist",
+          "instruction": "Step:1 Hang from a pull-up bar with your arms fully extended and your palms facing away from you.",
+          "primaryMuscles": [
+            "abs"
+          ],
+          "secondaryMuscles": [
+            "hip flexors",
+            "lower back"
+          ],
+          "bodyParts": [
+            "waist"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/8K0w2yA",
+          "exerciseId": "8K0w2yA",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\8K0w2yA.gif"
+        },
+        {
+          "name": "Bent Over Two-Dumbbell Row With Palms In",
+          "muscles": "middle back",
+          "instruction": "With a dumbbell in each hand (palms facing each other), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The weights should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
+          "primaryMuscles": [
+            "middle back"
+          ],
+          "secondaryMuscles": [
+            "biceps",
+            "lats"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row_With_Palms_In/0.jpg",
+          "exerciseId": "Bent_Over_Two-Dumbbell_Row_With_Palms_In"
+        },
+        {
+          "name": "Bosu Ball Cable Crunch With Side Bends",
+          "muscles": "abdominals",
+          "instruction": "Connect a standard handle to each arm of a cable machine, and position them in the most downward position.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bosu_Ball_Cable_Crunch_With_Side_Bends/0.jpg",
+          "exerciseId": "Bosu_Ball_Cable_Crunch_With_Side_Bends"
+        },
+        {
+          "name": "Kneeling Single-Arm High Pulley Row",
+          "muscles": "lats",
+          "instruction": "Attach a single handle to a high pulley and make your weight selection.",
+          "primaryMuscles": [
+            "lats"
+          ],
+          "secondaryMuscles": [
+            "biceps",
+            "middle back"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Kneeling_Single-Arm_High_Pulley_Row/0.jpg",
+          "exerciseId": "Kneeling_Single-Arm_High_Pulley_Row"
+        }
+      ],
+      "nutrition_examples": []
+    },
+    {
+      "type": "question",
+      "message": "What should I eat?",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: Pre-workout, consume a small, balanced meal with carbohydrates and protein. post-workout, opt for a mix of protein and carbs to aid recovery. listen to your body's hunger cues and refuel accordingly.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "What should I eat for muscle gain?",
+      "profile": {
+        "gender": null,
+        "goal": "muscle_gain",
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: People cannot just work out for a set number of hours each week and expect to lose weight or gain muscle. to lose weight, a persons body should use up more calories than it takes in.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "Show exercise images",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded fitness answer based on the exercise knowledge base: Exercise has numerous benefits for mental health, including reducing symptoms of anxiety and depression, improving mood, boosting self-esteem, and promoting relaxation and stress relief.",
+      "exercise_examples": [
+        {
+          "name": "barbell incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "3TZduzM",
+          "gif_url": "/exercise-gif/3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "barbell incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/3TZduzM",
+          "exerciseId": "3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "5v7KYld",
+          "gif_url": "/exercise-gif/5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/5v7KYld",
+          "exerciseId": "5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "Overhead Squat",
+          "muscles": "quadriceps",
+          "instruction": "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
+          "primaryMuscles": [
+            "quadriceps"
+          ],
+          "secondaryMuscles": [
+            "abdominals",
+            "calves",
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "olympic weightlifting",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Squat/0.jpg",
+          "exerciseId": "Overhead_Squat"
+        },
+        {
+          "name": "Bent Press",
+          "muscles": "abdominals",
+          "instruction": "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulders by extending through the legs and hips as you raise the kettlebell towards your shoulder. The wrist should rotate as you do so. This will be your starting position.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "quadriceps",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Press/0.jpg",
+          "exerciseId": "Bent_Press"
+        }
+      ],
+      "nutrition_examples": []
+    },
+    {
+      "type": "greeting",
+      "message": "hi",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Greetings! I'm here to help you with your workout and nutrition. How are you doing?"
+    },
+    {
+      "type": "greeting",
+      "message": "hi",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Hello! I'm your FitPax AI trainer assistant. How can I help you with your fitness journey today?"
+    },
+    {
+      "type": "question",
+      "message": "weight gain",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: People cannot just work out for a set number of hours each week and expect to lose weight or gain muscle. to lose weight, a persons body should use up more calories than it takes in.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "Show exercise images",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded fitness answer based on the exercise knowledge base: Exercise has numerous benefits for mental health, including reducing symptoms of anxiety and depression, improving mood, boosting self-esteem, and promoting relaxation and stress relief.",
+      "exercise_examples": [
+        {
+          "name": "barbell incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "3TZduzM",
+          "gif_url": "/exercise-gif/3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "barbell incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/3TZduzM",
+          "exerciseId": "3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "5v7KYld",
+          "gif_url": "/exercise-gif/5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/5v7KYld",
+          "exerciseId": "5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "Overhead Squat",
+          "muscles": "quadriceps",
+          "instruction": "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
+          "primaryMuscles": [
+            "quadriceps"
+          ],
+          "secondaryMuscles": [
+            "abdominals",
+            "calves",
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "olympic weightlifting",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Squat/0.jpg",
+          "exerciseId": "Overhead_Squat"
+        },
+        {
+          "name": "Bent Press",
+          "muscles": "abdominals",
+          "instruction": "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulders by extending through the legs and hips as you raise the kettlebell towards your shoulder. The wrist should rotate as you do so. This will be your starting position.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "quadriceps",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Press/0.jpg",
+          "exerciseId": "Bent_Press"
+        }
+      ],
+      "nutrition_examples": []
+    },
+    {
+      "type": "greeting",
+      "message": "hi",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Hello! I'm your FitPax AI trainer assistant. How can I help you with your fitness journey today?"
     }
   ]
 }
