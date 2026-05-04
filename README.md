@@ -105,6 +105,22 @@ This downloads and normalizes:
 
 The assistant then uses those examples to ground chat replies, intent detection, and diet/workout guidance.
 
+## Advanced AI Training
+
+You can now train an advanced, open-source transformer model on your local datasets. This provides high-accuracy semantic search and intent recognition.
+
+1. **Install Dependencies**:
+   ```powershell
+   pip install torch sentence-transformers pandas
+   ```
+
+2. **Run Advanced Training**:
+   ```powershell
+   python train_advanced_model.py
+   ```
+
+This will create a `fitpax_trained_model` directory. The `FitPaxAssistant` in `assistant_core.py` will automatically detect and load this model to provide superior, dataset-grounded responses.
+
 ## Good public Kaggle datasets to try
 
 - `exercisedb/fitness-exercises-dataset`

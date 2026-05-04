@@ -1,5 +1,10 @@
 {
-  "profile": {},
+  "profile": {
+    "gender": "Male",
+    "goal": "muscle_gain",
+    "bmi_category": "Underweight",
+    "diet_type": null
+  },
   "interactions": [
     {
       "type": "question",
@@ -750,6 +755,838 @@
         "diet_type": null
       },
       "reply": "Hello! I'm your FitPax AI trainer assistant. How can I help you with your fitness journey today?"
+    },
+    {
+      "type": "greeting",
+      "message": "hi",
+      "profile": {
+        "gender": null,
+        "goal": null,
+        "bmi_category": null,
+        "diet_type": null
+      },
+      "reply": "Hello! I'm your FitPax AI trainer assistant. How can I help you with your fitness journey today?"
+    },
+    {
+      "type": "plan",
+      "profile": {
+        "gender": "Male",
+        "goal": "muscle_gain",
+        "bmi_category": "Underweight",
+        "diet_type": null
+      },
+      "message": "",
+      "reply": "To help you succeed with muscle gain, I recommend the following routine and nutrition focus. \n\n**Training Focus:** To build mass effectively, aim for a split routine (like Upper/Lower or PPL) 4 days a week. Keep your intensity high and track your lifts to ensure you are getting stronger over time. \n\n**Nutrition Strategy:** Since you are in the underweight category, this plan prioritizes calorie-dense, nutrient-rich foods and frequent snacking to help you reach a healthier weight safely. Here is a more grounded diet answer based on the nutrition knowledge base: A good Intermittent fasting lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+      "exercise_examples": [
+        {
+          "name": "barbell incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "3TZduzM",
+          "gif_url": "/exercise-gif/3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "barbell incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/3TZduzM",
+          "exerciseId": "3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "5v7KYld",
+          "gif_url": "/exercise-gif/5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/5v7KYld",
+          "exerciseId": "5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "Overhead Squat",
+          "muscles": "quadriceps",
+          "instruction": "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
+          "primaryMuscles": [
+            "quadriceps"
+          ],
+          "secondaryMuscles": [
+            "abdominals",
+            "calves",
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "olympic weightlifting",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Squat/0.jpg",
+          "exerciseId": "Overhead_Squat"
+        },
+        {
+          "name": "Bent Press",
+          "muscles": "abdominals",
+          "instruction": "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulders by extending through the legs and hips as you raise the kettlebell towards your shoulder. The wrist should rotate as you do so. This will be your starting position.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "quadriceps",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Press/0.jpg",
+          "exerciseId": "Bent_Press"
+        }
+      ],
+      "nutrition_examples": [
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ],
+      "knowledge_examples": [
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Intermittent fasting meal for lunch.",
+          "response": "A good Intermittent fasting lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.8
+        },
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Indian vegetarian meal for lunch.",
+          "response": "A good Indian vegetarian lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.8
+        },
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Indian non-veg meal for lunch.",
+          "response": "A good Indian non-veg lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.8
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "What should I eat for muscle gain?",
+      "profile": {
+        "gender": "Male",
+        "goal": "muscle_gain",
+        "bmi_category": "Underweight",
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: People cannot just work out for a set number of hours each week and expect to lose weight or gain muscle. to lose weight, a persons body should use up more calories than it takes in.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "What foods should I eat?",
+      "profile": {
+        "gender": "Male",
+        "goal": "muscle_gain",
+        "bmi_category": "Underweight",
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: It's best to eat carbs and protein before a workout.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "i am vegan",
+      "profile": {
+        "gender": "Male",
+        "goal": "muscle_gain",
+        "bmi_category": "Underweight",
+        "diet_type": "vegan"
+      },
+      "reply": "Here is a more grounded diet answer based on the nutrition knowledge base: A good Vegan lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+      "exercise_examples": [],
+      "nutrition_examples": [
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), raw, mature seeds",
+          "calories": 378.0,
+          "protein": 20.47,
+          "fiber": 12.2,
+          "carbohydrate": 62.95,
+          "fat": 6.04
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+          "calories": 364.0,
+          "protein": 19.3,
+          "fiber": 17.4,
+          "carbohydrate": 60.65,
+          "fat": 6.04
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, with salt",
+          "calories": 164.0,
+          "protein": 8.86,
+          "fiber": 7.6,
+          "carbohydrate": 27.42,
+          "fat": 2.59
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+          "calories": 164.0,
+          "protein": 8.86,
+          "fiber": 7.6,
+          "carbohydrate": 27.42,
+          "fat": 2.59
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), with salt, boiled, cooked, mature seeds",
+          "calories": 164.0,
+          "protein": 8.86,
+          "fiber": 7.6,
+          "carbohydrate": 27.42,
+          "fat": 2.59
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), without salt, boiled, cooked, mature seeds",
+          "calories": 164.0,
+          "protein": 8.86,
+          "fiber": 7.6,
+          "carbohydrate": 27.42,
+          "fat": 2.59
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), drained solids, canned, mature seeds",
+          "calories": 139.0,
+          "protein": 7.05,
+          "fiber": 6.4,
+          "carbohydrate": 22.53,
+          "fat": 2.77
+        },
+        {
+          "name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, canned, drained solids",
+          "calories": 139.0,
+          "protein": 7.05,
+          "fiber": 6.4,
+          "carbohydrate": 22.53,
+          "fat": 2.77
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "message": "Show exercise images",
+      "profile": {
+        "gender": "Male",
+        "goal": "muscle_gain",
+        "bmi_category": "Underweight",
+        "diet_type": null
+      },
+      "reply": "Here is a more grounded fitness answer based on the exercise knowledge base: Exercise has numerous benefits for mental health, including reducing symptoms of anxiety and depression, improving mood, boosting self-esteem, and promoting relaxation and stress relief.",
+      "exercise_examples": [
+        {
+          "name": "barbell incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "3TZduzM",
+          "gif_url": "/exercise-gif/3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "barbell incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/3TZduzM",
+          "exerciseId": "3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "5v7KYld",
+          "gif_url": "/exercise-gif/5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/5v7KYld",
+          "exerciseId": "5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "Overhead Squat",
+          "muscles": "quadriceps",
+          "instruction": "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
+          "primaryMuscles": [
+            "quadriceps"
+          ],
+          "secondaryMuscles": [
+            "abdominals",
+            "calves",
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "olympic weightlifting",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Squat/0.jpg",
+          "exerciseId": "Overhead_Squat"
+        },
+        {
+          "name": "Bent Press",
+          "muscles": "abdominals",
+          "instruction": "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulders by extending through the legs and hips as you raise the kettlebell towards your shoulder. The wrist should rotate as you do so. This will be your starting position.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "quadriceps",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Press/0.jpg",
+          "exerciseId": "Bent_Press"
+        }
+      ],
+      "nutrition_examples": []
+    },
+    {
+      "type": "plan",
+      "profile": {
+        "gender": "Male",
+        "goal": "muscle_gain",
+        "bmi_category": "Underweight",
+        "diet_type": null
+      },
+      "message": "",
+      "reply": "Here is a comprehensive approach tailored to your objective of muscle gain. \n\n**Training Focus:** Muscle hypertrophy requires consistency. Aim for 2-4 heavy lifting sessions weekly, targeting all major muscle groups, and stay active on rest days with light walking. \n\n**Nutrition Strategy:** Since you are in the underweight category, this plan prioritizes calorie-dense, nutrient-rich foods and frequent snacking to help you reach a healthier weight safely. Here is a more grounded diet answer based on the nutrition knowledge base: A good Intermittent fasting lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+      "exercise_examples": [
+        {
+          "name": "barbell incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "3TZduzM",
+          "gif_url": "/exercise-gif/3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "barbell incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Set up an incline bench at a 45-degree angle.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/3TZduzM",
+          "exerciseId": "3TZduzM",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\3TZduzM.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "pectorals",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": "visual",
+          "exerciseId": "5v7KYld",
+          "gif_url": "/exercise-gif/5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "smith incline bench press",
+          "muscles": "chest",
+          "instruction": "Step:1 Adjust the bench to a 30-45 degree incline.",
+          "primaryMuscles": [
+            "pectorals"
+          ],
+          "secondaryMuscles": [
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [
+            "chest"
+          ],
+          "category": null,
+          "gif_url": "/exercise-gif/5v7KYld",
+          "exerciseId": "5v7KYld",
+          "local_gif_path": "D:\\machine learning\\fitpaxproai\\data\\kaggle\\exercisedb\\exercisedb_v1_sample\\gifs_1080x1080\\5v7KYld.gif"
+        },
+        {
+          "name": "Overhead Squat",
+          "muscles": "quadriceps",
+          "instruction": "Start out by having a barbell in front of you on the floor. Your feet should be wider than shoulder width apart from each other.",
+          "primaryMuscles": [
+            "quadriceps"
+          ],
+          "secondaryMuscles": [
+            "abdominals",
+            "calves",
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "olympic weightlifting",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Squat/0.jpg",
+          "exerciseId": "Overhead_Squat"
+        },
+        {
+          "name": "Bent Press",
+          "muscles": "abdominals",
+          "instruction": "Clean a kettlebell to your shoulder. Clean the kettlebell to your shoulders by extending through the legs and hips as you raise the kettlebell towards your shoulder. The wrist should rotate as you do so. This will be your starting position.",
+          "primaryMuscles": [
+            "abdominals"
+          ],
+          "secondaryMuscles": [
+            "glutes",
+            "hamstrings",
+            "lower back",
+            "quadriceps",
+            "shoulders",
+            "triceps"
+          ],
+          "bodyParts": [],
+          "category": "strength",
+          "gif_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Press/0.jpg",
+          "exerciseId": "Bent_Press"
+        }
+      ],
+      "nutrition_examples": [
+        {
+          "name": "Fish, dried (Alaska Native), chum, salmon",
+          "calories": 378.0,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, salmon, chum, dried (Alaska Native)",
+          "calories": null,
+          "protein": 62.09,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 14.38
+        },
+        {
+          "name": "Fish, dry (Alaska Native), Pacific, herring eggs",
+          "calories": 100.0,
+          "protein": 60.4,
+          "fiber": 0.0,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, herring eggs, Pacific, dry (Alaska Native)",
+          "calories": null,
+          "protein": 60.4,
+          "fiber": null,
+          "carbohydrate": 2.8,
+          "fat": 6.6
+        },
+        {
+          "name": "Fish, brined (Alaska Native), smoked, chinook, king, salmon",
+          "calories": 430.0,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, salmon, king, chinook, smoked, brined (Alaska Native)",
+          "calories": null,
+          "protein": 39.9,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 30.0
+        },
+        {
+          "name": "Fish, smoked (Alaska Native), canned, (sockeye), red, salmon",
+          "calories": 206.0,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        },
+        {
+          "name": "Fish, salmon, red, (sockeye), canned, smoked (Alaska Native)",
+          "calories": null,
+          "protein": 35.19,
+          "fiber": 0.0,
+          "carbohydrate": 0.0,
+          "fat": 7.26
+        }
+      ],
+      "knowledge_examples": [
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Intermittent fasting meal for lunch.",
+          "response": "A good Intermittent fasting lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.65
+        },
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Indian vegetarian meal for lunch.",
+          "response": "A good Indian vegetarian lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.65
+        },
+        {
+          "source": "navaneeth005/diet_advice",
+          "kind": "nutrition_plan",
+          "prompt": "Suggest a Indian non-veg meal for lunch.",
+          "response": "A good Indian non-veg lunch could include a balanced mix of grains, protein, and vegetables. For example, brown rice with tofu stir-fry and a green salad.",
+          "intent": "diet_advice",
+          "context": null,
+          "alt_response": null,
+          "score": 0.65
+        }
+      ]
     }
   ]
 }

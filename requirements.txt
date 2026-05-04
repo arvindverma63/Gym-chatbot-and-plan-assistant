@@ -2,4 +2,10 @@ fastapi
 uvicorn
 pydantic
 python-multipart
-# Add any other core dependencies if needed
+requests
+pandas
+torch
+sentence-transformers
+numpy
+scikit-learn
+accelerate

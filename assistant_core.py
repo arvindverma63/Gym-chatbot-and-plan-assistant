@@ -21,7 +21,14 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import random
+import numpy as np
 from gym_ai import GymAdvisor, MODEL_FILENAME, recommendation_to_dict
+
+try:
+    from sentence_transformers import SentenceTransformer, util
+    HAS_TRANSFORMERS = True
+except ImportError:
+    HAS_TRANSFORMERS = False
 
 
 DEFAULT_GENDER = "Male"
@@ -504,8 +511,10 @@ class FitPaxAssistant:
         self.knowledge: list[dict] = []
         self.knowledge_index: dict[str, list[int]] = {}
         self.knowledge_by_intent: dict[str, list[int]] = {}
-        self.feedback: list[dict] = []
+        self.feedback = []
         self._feedback_changed = False
+        self.transformer_model = None
+        self.knowledge_embeddings = None
         self._load_feedback()
         self.refresh(force=True)
 
@@ -544,8 +553,31 @@ class FitPaxAssistant:
         self.nutrition = self._load_nutrition()
         self.knowledge = self._load_knowledge()
         self._index_knowledge()
+        self._load_advanced_model()
         self._mtimes = self._snapshot()
         self._feedback_changed = False
+
+    def _load_advanced_model(self) -> None:
+        if not HAS_TRANSFORMERS:
+            return
+        
+        model_path = self.base_dir / "fitpax_trained_model"
+        if not model_path.exists():
+            return
+            
+        try:
+            print(f"Loading advanced model from {model_path}...")
+            self.transformer_model = SentenceTransformer(str(model_path))
+            
+            if self.knowledge:
+                print("Computing knowledge embeddings for semantic search...")
+                texts = [f"{item.get('prompt', '')} {item.get('response', '')}" for item in self.knowledge]
+                self.knowledge_embeddings = self.transformer_model.encode(texts, convert_to_tensor=True, show_progress_bar=False)
+                print(f"Computed embeddings for {len(texts)} knowledge items.")
+        except Exception as e:
+            print(f"Error loading advanced model: {e}")
+            self.transformer_model = None
+            self.knowledge_embeddings = None
 
     def _load_memory(self, session_id: str) -> dict:
         safe_id = "".join(c for c in session_id if c.isalnum() or c in "_-") or "default"
@@ -969,6 +1001,30 @@ class FitPaxAssistant:
             ]
             if filtered_ids:
                 candidate_ids = set(filtered_ids)
+        
+        # Use Semantic Search if model is available
+        if self.transformer_model is not None and self.knowledge_embeddings is not None:
+            try:
+                query_embedding = self.transformer_model.encode(text, convert_to_tensor=True)
+                cos_scores = util.cos_sim(query_embedding, self.knowledge_embeddings)[0]
+                
+                # Get top K matches
+                top_results = torch.topk(cos_scores, k=min(limit * 2, len(self.knowledge)))
+                semantic_results = []
+                for score, idx in zip(top_results[0], top_results[1]):
+                    item = self.knowledge[int(idx)]
+                    if item.get("kind") == "intent_example":
+                        continue
+                    # Boost semantic results
+                    semantic_results.append((float(score) + 0.2, item))
+                
+                # Combine with keyword results if needed or just return semantic
+                if semantic_results:
+                    semantic_results.sort(key=lambda x: x[0], reverse=True)
+                    return [item for _, item in semantic_results[:limit]]
+            except Exception as e:
+                print(f"Semantic search failed: {e}")
+
         ranked: list[tuple[float, dict]] = []
         for idx in candidate_ids:
             if idx < 0 or idx >= len(self.knowledge):
